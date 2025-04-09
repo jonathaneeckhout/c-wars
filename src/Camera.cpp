@@ -11,12 +11,12 @@ void Camera::input()
 
 void Camera::update(float dt)
 {
-    this->position += this->velocity * this->speed * dt;
+    position += velocity * speed * dt;
 
-    // std::cout << this->position.x << " " << this->position.y << std::endl;
+    // std::cout << position.x << " " << position.y << std::endl;
 }
 
 void Camera::move(Vector direction)
 {
-    this->velocity = direction;
+    velocity = direction;
 }

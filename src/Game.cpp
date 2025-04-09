@@ -30,11 +30,13 @@ Game::Game() : window(nullptr), renderer(nullptr), running(false)
         throw std::runtime_error("Failed to create renderer");
     }
 
-    this->registerInputs();
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
 
-    //Debug line: add one test worker
+    registerInputs();
+
+    // Debug line: add one test worker
     Worker *worker = new Worker(Vector(100, 100));
-    this->entities["worker"] = worker;
+    entities["worker"] = worker;
 }
 
 Game::~Game()
@@ -46,30 +48,30 @@ Game::~Game()
 
 void Game::registerInputs()
 {
-    this->controls.onStop = [this]()
-    { this->stop(); };
+    controls.onStop = [this]()
+    { stop(); };
 
-    this->controls.onMoveCamera = [this](Vector direction)
+    controls.onMoveCamera = [this](Vector direction)
     {
-        this->camera.move(direction);
+        camera.move(direction);
     };
 }
 
 void Game::run()
 {
-    this->running = true;
+    running = true;
 
-    const double frameDuration = 1.0 / this->fps;
+    const double frameDuration = 1.0 / fps;
 
-    while (this->running)
+    while (running)
     {
         auto frameStart = std::chrono::high_resolution_clock::now();
 
-        this->input();
+        input();
 
-        this->update(static_cast<float>(frameDuration));
+        update(static_cast<float>(frameDuration));
 
-        this->output();
+        output();
 
         auto frameEnd = std::chrono::high_resolution_clock::now();
 
@@ -87,32 +89,34 @@ void Game::run()
 
 void Game::stop()
 {
-    this->running = false;
+    running = false;
 }
 
 void Game::input()
 {
-    this->controls.input();
+    controls.input();
 }
 
 void Game::output()
 {
-    SDL_SetRenderDrawColor(this->renderer, 0, 0, 0, 255);
-    SDL_RenderClear(this->renderer);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    SDL_RenderClear(renderer);
 
-    for (auto entity : this->entities)
+    for (auto entity : entities)
     {
-        entity.second->output(this->renderer, &this->camera);
+        entity.second->output(renderer, &camera);
     }
 
-    SDL_RenderPresent(this->renderer);
+    controls.output(renderer, &camera);
+
+    SDL_RenderPresent(renderer);
 }
 
 void Game::update(float dt)
 {
-    this->camera.update(dt);
+    camera.update(dt);
 
-    for (auto entity : this->entities)
+    for (auto entity : entities)
     {
         entity.second->update(dt);
     }

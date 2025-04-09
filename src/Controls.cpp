@@ -1,7 +1,16 @@
 #include "Controls.h"
 #include <iostream>
 
-Controls::Controls() {}
+Controls::Controls()
+{
+    selection.onSelection = [this](SDL_Rect rect)
+    {
+        if (onSelection != NULL)
+        {
+            onSelection(rect);
+        }
+    };
+}
 
 Controls::~Controls() {}
 
@@ -13,35 +22,35 @@ void Controls::input()
         switch (event.type)
         {
         case SDL_QUIT:
-            if (this->onStop != NULL)
+            if (onStop != NULL)
             {
-                this->onStop();
+                onStop();
             }
             break;
         case SDL_KEYDOWN:
             switch (event.key.keysym.sym)
             {
             case SDLK_ESCAPE:
-                if (this->onStop != NULL)
+                if (onStop != NULL)
                 {
-                    this->onStop();
+                    onStop();
                 }
                 break;
 
             case SDLK_w:
-                this->wPressed = true;
+                wPressed = true;
                 break;
 
             case SDLK_s:
-                this->sPressed = true;
+                sPressed = true;
                 break;
 
             case SDLK_a:
-                this->aPressed = true;
+                aPressed = true;
                 break;
 
             case SDLK_d:
-                this->dPressed = true;
+                dPressed = true;
                 break;
 
             default:
@@ -53,27 +62,60 @@ void Controls::input()
             switch (event.key.keysym.sym)
             {
             case SDLK_w:
-                this->wPressed = false;
+                wPressed = false;
                 break;
             case SDLK_s:
-                this->sPressed = false;
+                sPressed = false;
                 break;
             case SDLK_a:
-                this->aPressed = false;
+                aPressed = false;
                 break;
             case SDLK_d:
-                this->dPressed = false;
+                dPressed = false;
                 break;
             default:
                 break;
             }
 
             break;
+        case SDL_MOUSEBUTTONDOWN:
+            switch (event.button.button)
+            {
+            case SDL_BUTTON_LEFT:
+                selection.start(Vector{float(event.button.x), float(event.button.y)});
+                break;
+            case SDL_BUTTON_RIGHT:
+                break;
+            case SDL_BUTTON_MIDDLE:
+                break;
+            default:
+                break;
+            }
+            break;
+        case SDL_MOUSEBUTTONUP:
+            switch (event.button.button)
+            {
+            case SDL_BUTTON_LEFT:
+                selection.end(Vector{float(event.button.x), float(event.button.y)});
+
+                break;
+            case SDL_BUTTON_RIGHT:
+                break;
+            case SDL_BUTTON_MIDDLE:
+                break;
+            default:
+                break;
+            }
+            break;
+        case SDL_MOUSEMOTION:
+            selection.move(Vector{float(event.motion.x), float(event.motion.y)});
+
+            break;
         default:
             break;
         }
 
-        this->handleCameraMovement();
+        handleCameraMovement();
     }
 }
 
@@ -81,25 +123,32 @@ void Controls::handleCameraMovement()
 {
     Vector cameraMoveDirection = {0, 0};
 
-    if (this->wPressed)
+    if (wPressed)
     {
         cameraMoveDirection.y -= 1;
     }
-    if (this->sPressed)
+    if (sPressed)
     {
         cameraMoveDirection.y += 1;
     }
-    if (this->aPressed)
+    if (aPressed)
     {
         cameraMoveDirection.x -= 1;
     }
-    if (this->dPressed)
+    if (dPressed)
     {
         cameraMoveDirection.x += 1;
     }
 
-    if (this->onMoveCamera != NULL)
+    if (onMoveCamera != NULL)
     {
-        this->onMoveCamera(cameraMoveDirection.normalize());
+        onMoveCamera(cameraMoveDirection.normalize());
     }
+}
+
+void Controls::update(float) {}
+
+void Controls::output(SDL_Renderer *renderer, Camera *camera)
+{
+    selection.output(renderer, camera);
 }
