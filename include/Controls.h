@@ -13,7 +13,7 @@ class Controls
 public:
     std::function<void()> onStop = NULL;
     std::function<void(Vector)> onMoveCamera = NULL;
-    std::function<void(SDL_Rect)> onSelection = NULL;
+    std::function<void(SDL_FRect)> onSelection = NULL;
 
     Controls();
     ~Controls();

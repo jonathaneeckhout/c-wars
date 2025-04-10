@@ -3,7 +3,7 @@
 
 Controls::Controls()
 {
-    selection.onSelection = [this](SDL_Rect rect)
+    selection.onSelection = [this](SDL_FRect rect)
     {
         if (onSelection != NULL)
         {

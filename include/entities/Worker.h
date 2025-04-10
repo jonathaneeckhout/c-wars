@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Entity.h"
+#include <string>
 
-class Worker : public Entity
+#include "entities/Unit.h"
+
+class Worker : public Unit
 {
 public:
-    Worker(Vector position);
+    bool selected = false;
+
+    Worker(std::string id, std::string player, Vector position);
     ~Worker();
-    void update(float dt) override;
-    void output(SDL_Renderer *renderer,  Camera *camera) override;
 };

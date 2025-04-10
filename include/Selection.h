@@ -9,7 +9,7 @@
 class Selection
 {
 public:
-    std::function<void(SDL_Rect)> onSelection = NULL;
+    std::function<void(SDL_FRect)> onSelection = NULL;
 
     Selection();
     ~Selection();
@@ -25,5 +25,5 @@ private:
     Vector startPos = {0, 0};
     Vector endPos = {0, 0};
 
-    SDL_Rect getSelectionRect() const;
+    SDL_FRect getSelectionRect() const;
 };

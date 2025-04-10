@@ -36,17 +36,17 @@ void Selection::output(SDL_Renderer *renderer, Camera *)
 {
     if (selected)
     {
-        SDL_Rect square = getSelectionRect();
+        SDL_FRect square = getSelectionRect();
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 128);
-        SDL_RenderFillRect(renderer, &square);
+        SDL_RenderFillRectF(renderer, &square);
     }
 }
 
-SDL_Rect Selection::getSelectionRect() const
+SDL_FRect Selection::getSelectionRect() const
 {
-    int minX = std::min(int(startPos.x), int(endPos.x));
-    int minY = std::min(int(startPos.y), int(endPos.y));
-    int width = std::abs(int(endPos.x - startPos.x));
-    int height = std::abs(int(endPos.y - startPos.y));
+    float minX = std::min(int(startPos.x), int(endPos.x));
+    float minY = std::min(int(startPos.y), int(endPos.y));
+    float width = std::abs(int(endPos.x - startPos.x));
+    float height = std::abs(int(endPos.y - startPos.y));
     return {minX, minY, width, height};
 }

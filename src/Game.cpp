@@ -35,8 +35,12 @@ Game::Game() : window(nullptr), renderer(nullptr), running(false)
     registerInputs();
 
     // Debug line: add one test worker
-    Worker *worker = new Worker(Vector(100, 100));
+    Worker *worker = new Worker("123", "TestPlayer", Vector(100, 100));
     entities["worker"] = worker;
+
+    Worker *worker2 = new Worker("321", "TestPlayer", Vector(180, 180));
+    entities["worker2"] = worker2;
+
 }
 
 Game::~Game()
@@ -54,6 +58,14 @@ void Game::registerInputs()
     controls.onMoveCamera = [this](Vector direction)
     {
         camera.move(direction);
+    };
+
+    controls.onSelection = [this](SDL_FRect rect)
+    {
+        SDL_FRect globalRect = rect;
+        globalRect.x += camera.position.x;
+        globalRect.y += camera.position.y;
+        player.scanEntities(globalRect, entities);
     };
 }
 
@@ -120,4 +132,9 @@ void Game::update(float dt)
     {
         entity.second->update(dt);
     }
+}
+
+void Game::setPlayer(Player player)
+{
+    this->player = player;
 }

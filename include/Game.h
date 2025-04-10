@@ -6,7 +6,8 @@
 
 #include "Controls.h"
 #include "Camera.h"
-#include "Entity.h"
+#include "entities/Entity.h"
+#include "Player.h"
 
 class Game
 {
@@ -21,11 +22,19 @@ public:
     void run();
     void stop();
 
+    void setPlayer(Player player);
+
 private:
     SDL_Window *window;
     SDL_Renderer *renderer;
+
     std::atomic<bool> running;
+
     std::map<std::string, Entity *> entities;
+    std::map<std::string, Player *> players;
+
+    Player player;
+
     void input();
     void update(float dt);
     void output();
