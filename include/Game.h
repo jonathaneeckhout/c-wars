@@ -6,7 +6,7 @@
 
 #include "Controls.h"
 #include "Camera.h"
-#include "entities/Entity.h"
+#include "maps/Map.h"
 #include "Player.h"
 
 class Game
@@ -22,7 +22,9 @@ public:
     void run();
     void stop();
 
-    void setPlayer(Player player);
+    Map *getMap() { return &map; }
+
+    void setPlayer(Player *player);
 
 private:
     SDL_Window *window;
@@ -30,10 +32,10 @@ private:
 
     std::atomic<bool> running;
 
-    std::map<std::string, Entity *> entities;
+    Map map;
     std::map<std::string, Player *> players;
 
-    Player player;
+    Player *player;
 
     void input();
     void update(float dt);

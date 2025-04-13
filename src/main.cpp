@@ -20,7 +20,8 @@ int main()
     // For now we just create a test player
     Player player;
     player.name = "TestPlayer";
-    game.setPlayer(player);
+    game.setPlayer(&player);
+    player.map = game.getMap();
 
     game.run();
 

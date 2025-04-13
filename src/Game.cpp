@@ -30,17 +30,18 @@ Game::Game() : window(nullptr), renderer(nullptr), running(false)
         throw std::runtime_error("Failed to create renderer");
     }
 
+    map.name = "TestMap";
+
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
 
     registerInputs();
 
-    // Debug line: add one test worker
-    Worker *worker = new Worker("123", "TestPlayer", Vector(100, 100));
-    entities["worker"] = worker;
+    // Debugging, remove later
+    std::string id = map.addEntity("Worker", "TestPlayer", Vector(100, 100));
+    std::cout << "Entity ID after adding: " << id << std::endl;
 
-    Worker *worker2 = new Worker("321", "TestPlayer", Vector(180, 180));
-    entities["worker2"] = worker2;
-
+    std::string id2 = map.addEntity("Worker", "TestPlayer", Vector(180, 180));
+    std::cout << "Entity ID after adding: " << id2 << std::endl;
 }
 
 Game::~Game()
@@ -65,7 +66,7 @@ void Game::registerInputs()
         SDL_FRect globalRect = rect;
         globalRect.x += camera.position.x;
         globalRect.y += camera.position.y;
-        player.scanEntities(globalRect, entities);
+        player->scanEntities(globalRect, map.getEntities());
     };
 }
 
@@ -114,12 +115,9 @@ void Game::output()
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 
-    for (auto entity : entities)
-    {
-        entity.second->output(renderer, &camera);
-    }
-
     controls.output(renderer, &camera);
+
+    map.output(renderer, &camera);
 
     SDL_RenderPresent(renderer);
 }
@@ -128,13 +126,10 @@ void Game::update(float dt)
 {
     camera.update(dt);
 
-    for (auto entity : entities)
-    {
-        entity.second->update(dt);
-    }
+    map.update(dt);
 }
 
-void Game::setPlayer(Player player)
+void Game::setPlayer(Player *player)
 {
     this->player = player;
 }
