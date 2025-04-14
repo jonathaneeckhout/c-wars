@@ -1,6 +1,6 @@
 #include <chrono>
 #include <thread>
-#include <iostream> // needed for std::cerr
+#include <iostream>
 #include "Game.h"
 
 #include "entities/Worker.h"
@@ -37,11 +37,14 @@ Game::Game() : window(nullptr), renderer(nullptr), running(false)
     registerInputs();
 
     // Debugging, remove later
-    std::string id = map.addEntity("Worker", "TestPlayer", Vector(100, 100));
-    std::cout << "Entity ID after adding: " << id << std::endl;
+    std::string id0 = map.addEntity("Worker", "TestPlayer", Vector(100, 100));
+    std::cout << "Added entity: " << id0 << std::endl;
 
-    std::string id2 = map.addEntity("Worker", "TestPlayer", Vector(180, 180));
-    std::cout << "Entity ID after adding: " << id2 << std::endl;
+    std::string id1 = map.addEntity("Worker", "TestPlayer", Vector(180, 180));
+    std::cout << "Added entity: " << id1 << std::endl;
+
+    std::string id2 = map.addEntity("Worker", "Computer", Vector(480, 480));
+    std::cout << "Added entity: " << id2 << std::endl;
 }
 
 Game::~Game()
