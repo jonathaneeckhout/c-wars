@@ -3,18 +3,19 @@
 #include <string>
 
 #include "entities/Entity.h"
-#include "collision/CollisionShapeSquare.h"
 
 class Unit : public Entity
 {
+    const int arrivalRadius = 10;
+
 public:
     std::string player = "";
 
     Vector velocity = {0, 0};
 
-    bool selected = false;
+    Vector targetPosition = {0, 0};
 
-    CollisionShapeSquare collisionShape = {{0, 0}, {32, 32}};
+    float speed = 100.0f;
 
     Unit(std::string id, std::string player, Vector position);
     virtual ~Unit();
@@ -24,4 +25,6 @@ public:
 
     void select();
     void deselect();
+
+    void move(Vector position);
 };

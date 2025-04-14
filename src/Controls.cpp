@@ -85,6 +85,10 @@ void Controls::input()
                 selection.start(Vector{float(event.button.x), float(event.button.y)});
                 break;
             case SDL_BUTTON_RIGHT:
+                if (onInteract != NULL)
+                {
+                    onInteract(Vector{float(event.button.x), float(event.button.y)});
+                }
                 break;
             case SDL_BUTTON_MIDDLE:
                 break;

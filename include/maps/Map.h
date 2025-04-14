@@ -22,9 +22,10 @@ public:
     void update(float dt);
     void output(SDL_Renderer *renderer, Camera *camera);
 
-    std::vector<Entity *> getEntities() const;
-
     Entity *getEntity(const std::string &id);
     std::string addEntity(const std::string &name, const std::string &player, Vector position);
     void removeEntity(const std::string &id);
+
+    std::vector<Entity *> getEntities() const;
+    std::vector<Entity *> getEntitiesInRect(SDL_FRect rect);
 };

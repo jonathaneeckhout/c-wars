@@ -2,7 +2,7 @@
 
 #include "collision/CollisionShapeSquare.h"
 
-CollisionShapeSquare::CollisionShapeSquare(Vector position, Vector size) : position(position), size(size) {}
+CollisionShapeSquare::CollisionShapeSquare(Vector position, Vector size) : CollisionShape(position), size(size) {}
 
 bool CollisionShapeSquare::collidesWith(const CollisionShape &other) const
 {

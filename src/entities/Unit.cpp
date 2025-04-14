@@ -1,16 +1,36 @@
+#include <iostream>
+
 #include "entities/Unit.h"
+#include "collision/CollisionShapeSquare.h"
 
 Unit::Unit(std::string id, std::string player, Vector position) : Entity(id, position)
 {
     this->player = player;
-    collisionShape.position = position;
+    targetPosition = position;
+
+    collisionShape = new CollisionShapeSquare(position, {32, 32});
 }
 
-Unit::~Unit() {}
+Unit::~Unit()
+{
+    delete collisionShape;
+}
 
 void Unit::update(float dt)
 {
-    position += velocity * dt;
+    if (position.distanceTo(targetPosition) < arrivalRadius)
+    {
+        velocity = {0, 0};
+    }
+    else
+    {
+        velocity = targetPosition - position;
+
+        velocity = velocity.normalize();
+    }
+
+    position += velocity * speed * dt;
+    collisionShape->position = position;
 }
 
 void Unit::output(SDL_Renderer *renderer, Camera *camera)
@@ -40,4 +60,9 @@ void Unit::select()
 void Unit::deselect()
 {
     selected = false;
+}
+
+void Unit::move(Vector position)
+{
+    targetPosition = position;
 }

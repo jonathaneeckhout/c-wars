@@ -2,10 +2,16 @@
 #include <vector>
 #include <string>
 
+#include "utils/Vector.h"
+#include "maps/Map.h"
+
 class Group
 {
 public:
-    Group();
+    std::string owner = "";
+    Map *map = NULL;
+
+    Group(std::string owner);
     ~Group();
 
     bool addMember(const std::string &member);
@@ -13,6 +19,8 @@ public:
     void clear();
 
     const std::vector<std::string> &getMembers() const;
+
+    void move(Vector position);
 
 private:
     std::vector<std::string> members;

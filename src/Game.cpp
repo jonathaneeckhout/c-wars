@@ -66,7 +66,23 @@ void Game::registerInputs()
         SDL_FRect globalRect = rect;
         globalRect.x += camera.position.x;
         globalRect.y += camera.position.y;
-        player->scanEntities(globalRect, map.getEntities());
+
+        std::vector<Entity *> entities = map.getEntitiesInRect(globalRect);
+
+        player->selectEntities(entities);
+    };
+
+    controls.onInteract = [this](Vector position)
+    {
+        Vector globalPosition = position;
+        globalPosition.x += camera.position.x;
+        globalPosition.y += camera.position.y;
+
+        SDL_FRect globalRect = {globalPosition.x, globalPosition.y, 0, 0};
+
+        std::vector<Entity *> entities = map.getEntitiesInRect(globalRect);
+
+        player->interact(globalPosition, entities);
     };
 }
 

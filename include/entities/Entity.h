@@ -4,6 +4,7 @@
 
 #include "utils/Vector.h"
 #include "Camera.h"
+#include "collision/CollisionShape.h"
 
 class Entity
 {
@@ -13,6 +14,9 @@ public:
     std::string id;
     std::string name;
     Vector position = {0, 0};
+
+    CollisionShape *collisionShape = NULL;
+    bool selected = false;
 
     Entity(std::string id, Vector position);
 

@@ -2,38 +2,50 @@
 
 #include "Player.h"
 #include "entities/Unit.h"
-#include "collision/CollisionShapeSquare.h"
 
-Player::Player() {}
+Player::Player(std::string name) : name(name)
+{
+    selectedEntities = new Group(name);
+}
 
-Player::~Player() {}
+Player::~Player()
+{
+    delete selectedEntities;
+}
 
-void Player::scanEntities(SDL_FRect rect, std::vector<Entity *> entities)
+void Player::setMap(Map *map)
+{
+    this->map = map;
+
+    selectedEntities->map = map;
+}
+
+void Player::selectEntities(std::vector<Entity *> entities)
 {
     // Clear selected entities
     deselectAll();
 
-    selectedEntities.clear();
+    selectedEntities->clear();
 
-    CollisionShapeSquare collisionShape = {{rect.x, rect.y}, {rect.w, rect.h}};
     for (auto entity : entities)
     {
-        if (dynamic_cast<Unit *>(entity))
-        {
-            Unit *unit = dynamic_cast<Unit *>(entity);
-            if (collisionShape.collidesWith(unit->collisionShape))
-            {
-                selectedEntities.addMember(unit->id);
-            }
-        }
+        selectedEntities->addMember(entity->id);
     }
 
     selectAll();
 }
 
+void Player::interact(Vector position, std::vector<Entity *> entities)
+{
+    if (entities.size() == 0)
+    {
+        selectedEntities->move(position);
+    }
+}
+
 void Player::selectAll()
 {
-    for (const std::string &id : selectedEntities.getMembers())
+    for (const std::string &id : selectedEntities->getMembers())
     {
         Entity *entity = map->getEntity(id);
         if (!entity)
@@ -48,7 +60,7 @@ void Player::selectAll()
 
 void Player::deselectAll()
 {
-    for (const std::string &id : selectedEntities.getMembers())
+    for (const std::string &id : selectedEntities->getMembers())
     {
         Entity *entity = map->getEntity(id);
         if (!entity)

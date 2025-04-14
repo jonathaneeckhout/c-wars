@@ -12,15 +12,18 @@ class Player
 public:
     std::string name;
 
-    Map *map = NULL;
-
-    Player();
+    Player(std::string name);
     ~Player();
 
-    void scanEntities(SDL_FRect rect, std::vector<Entity *>entities);
+    void setMap(Map *map);
+
+    void selectEntities(std::vector<Entity *> entities);
+    void interact(Vector position, std::vector<Entity *> entities);
 
 private:
-    Group selectedEntities;
+    Map *map = NULL;
+
+    Group *selectedEntities = NULL;
 
     void selectAll();
     void deselectAll();

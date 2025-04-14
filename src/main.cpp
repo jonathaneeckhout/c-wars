@@ -18,12 +18,13 @@ int main()
     std::signal(SIGINT, signalHandler);
 
     // For now we just create a test player
-    Player player;
-    player.name = "TestPlayer";
-    game.setPlayer(&player);
-    player.map = game.getMap();
+    Player *player = new Player("TestPlayer");
+    game.setPlayer(player);
+    player->setMap(game.getMap());
 
     game.run();
+
+    delete player;
 
     return 0;
 }

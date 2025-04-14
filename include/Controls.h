@@ -7,13 +7,13 @@
 #include "Camera.h"
 #include "Selection.h"
 
-
 class Controls
 {
 public:
     std::function<void()> onStop = NULL;
     std::function<void(Vector)> onMoveCamera = NULL;
     std::function<void(SDL_FRect)> onSelection = NULL;
+    std::function<void(Vector)> onInteract = NULL;
 
     Controls();
     ~Controls();

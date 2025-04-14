@@ -2,6 +2,7 @@
 
 #include "maps/Map.h"
 #include "utils/uuid.h"
+#include "collision/CollisionShapeSquare.h"
 #include "entities/Worker.h"
 
 Map::Map() = default;
@@ -57,6 +58,27 @@ std::vector<Entity *> Map::getEntities() const
     for (const auto &pair : entities)
     {
         result.push_back(pair.second.get());
+    }
+    return result;
+}
+
+std::vector<Entity *> Map::getEntitiesInRect(SDL_FRect rect)
+{
+    std::vector<Entity *> result;
+
+    CollisionShapeSquare collisionShape = {{rect.x, rect.y}, {rect.w, rect.h}};
+
+    for (const auto &pair : entities)
+    {
+        if (pair.second->collisionShape == NULL)
+        {
+            continue;
+        }
+
+        if (pair.second->collisionShape->collidesWith(collisionShape))
+        {
+            result.push_back(pair.second.get());
+        }
     }
     return result;
 }
