@@ -1,38 +1,26 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
-#include "Game.h"
+#include <SDL2/SDL.h>
 
+#include "Game.h"
 #include "entities/Worker.h"
 
-Game::Game() : window(nullptr), renderer(nullptr), running(false)
+Game::Game() : running(false)
 {
-
     if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
         throw std::runtime_error("Failed to initialize SDL");
     }
 
-    window = SDL_CreateWindow("CWars",
-                              SDL_WINDOWPOS_CENTERED,
-                              SDL_WINDOWPOS_CENTERED,
-                              800, 600,
-                              SDL_WINDOW_SHOWN);
-
-    if (!window)
+    if (TTF_Init() < 0)
     {
-        throw std::runtime_error("Failed to create window");
+        throw std::runtime_error("Failed to initialize TFF");
     }
 
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (!renderer)
-    {
-        throw std::runtime_error("Failed to create renderer");
-    }
+    renderer = new Renderer();
 
     map.name = "TestMap";
-
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
 
     registerInputs();
 
@@ -49,8 +37,10 @@ Game::Game() : window(nullptr), renderer(nullptr), running(false)
 
 Game::~Game()
 {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    delete renderer;
+
+    TTF_Quit();
+
     SDL_Quit();
 }
 
@@ -131,14 +121,13 @@ void Game::input()
 
 void Game::output()
 {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-    SDL_RenderClear(renderer);
+    renderer->clear();
 
     controls.output(renderer, &camera);
 
     map.output(renderer, &camera);
 
-    SDL_RenderPresent(renderer);
+    renderer->present();
 }
 
 void Game::update(float dt)

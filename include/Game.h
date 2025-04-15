@@ -2,8 +2,8 @@
 #include <atomic>
 #include <string>
 #include <map>
-#include <SDL2/SDL.h>
 
+#include "Renderer.h"
 #include "Controls.h"
 #include "Camera.h"
 #include "maps/Map.h"
@@ -27,8 +27,7 @@ public:
     void setPlayer(Player *player);
 
 private:
-    SDL_Window *window;
-    SDL_Renderer *renderer;
+    Renderer *renderer;
 
     std::atomic<bool> running;
 

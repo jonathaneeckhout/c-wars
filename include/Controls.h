@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "utils/Vector.h"
+#include "Renderer.h"
 #include "Camera.h"
 #include "Selection.h"
 
@@ -19,7 +20,7 @@ public:
     ~Controls();
     void input();
     void update(float dt);
-    void output(SDL_Renderer *renderer, Camera *camera);
+    void output(Renderer *renderer, Camera *camera);
 
 private:
     bool wPressed = false;

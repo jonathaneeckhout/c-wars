@@ -152,7 +152,7 @@ void Controls::handleCameraMovement()
 
 void Controls::update(float) {}
 
-void Controls::output(SDL_Renderer *renderer, Camera *camera)
+void Controls::output(Renderer *renderer, Camera *camera)
 {
     selection.output(renderer, camera);
 }

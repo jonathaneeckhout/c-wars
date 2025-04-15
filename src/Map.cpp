@@ -16,7 +16,7 @@ void Map::update(float dt)
     }
 }
 
-void Map::output(SDL_Renderer *renderer, Camera *camera)
+void Map::output(Renderer *renderer, Camera *camera)
 {
     for (auto &pair : entities)
     {

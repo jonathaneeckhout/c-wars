@@ -30,26 +30,36 @@ void Unit::update(float dt)
     }
 
     position += velocity * speed * dt;
-    collisionShape->position = position;
+
+    // Center the collisionshape
+    collisionShape->position = position - renderOffset;
 }
 
-void Unit::output(SDL_Renderer *renderer, Camera *camera)
+void Unit::output(Renderer *renderer, Camera *camera)
 {
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_NONE);
 
     Vector renderPostion = position - camera->position;
+
+    Vector unitRenderPosition = renderPostion - renderOffset;
+
+    // Draw selected area
     if (selected)
     {
-        SDL_FRect selectedSquare = {renderPostion.x - 1, renderPostion.y - 1, 34, 34};
-        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
-        SDL_RenderFillRectF(renderer, &selectedSquare);
+        SDL_FRect selectedSquare = {unitRenderPosition.x - selectedRenderOffset.x, unitRenderPosition.y - selectedRenderOffset.y, selectedSize.x, selectedSize.y};
+        SDL_SetRenderDrawColor(renderer->renderer, 255, 255, 0, 255);
+        SDL_RenderFillRectF(renderer->renderer, &selectedSquare);
     }
 
-    SDL_FRect square = {renderPostion.x, renderPostion.y, 32, 32};
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    SDL_RenderFillRectF(renderer, &square);
+    drawName(renderer, renderPostion, Vector{0, -48});
+    drawPlayer(renderer, renderPostion, Vector{0, -64});
 
-    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_ADD);
+    // Draw Unit
+    SDL_FRect square = {unitRenderPosition.x, unitRenderPosition.y, size.x, size.y};
+    SDL_SetRenderDrawColor(renderer->renderer, 255, 0, 0, 255);
+    SDL_RenderFillRectF(renderer->renderer, &square);
+
+    SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_ADD);
 }
 
 void Unit::select()
@@ -65,4 +75,32 @@ void Unit::deselect()
 void Unit::move(Vector position)
 {
     targetPosition = position;
+}
+
+void Unit::drawName(Renderer *renderer, Vector position, Vector offset)
+{
+    SDL_Color textColor = {255, 255, 255, 255};
+
+    SDL_Surface *textSurface = TTF_RenderText_Solid(renderer->fonts["unit"], name.c_str(), textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer->renderer, textSurface);
+
+    SDL_FRect textRect = {position.x - float(textSurface->w) / 2 + offset.x, position.y + offset.y, float(textSurface->w), float(textSurface->h)};
+    SDL_RenderCopyF(renderer->renderer, textTexture, NULL, &textRect);
+
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+}
+
+void Unit::drawPlayer(Renderer *renderer, Vector position, Vector offset)
+{
+    SDL_Color textColor = {255, 255, 255, 255};
+
+    SDL_Surface *textSurface = TTF_RenderText_Solid(renderer->fonts["unit"], player.c_str(), textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer->renderer, textSurface);
+
+    SDL_FRect textRect = {position.x - float(textSurface->w) / 2 + offset.x, position.y + offset.y, float(textSurface->w), float(textSurface->h)};
+    SDL_RenderCopyF(renderer->renderer, textTexture, NULL, &textRect);
+
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
 }

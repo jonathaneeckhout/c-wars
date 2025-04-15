@@ -32,13 +32,13 @@ void Selection::end(Vector position)
     }
 }
 
-void Selection::output(SDL_Renderer *renderer, Camera *)
+void Selection::output(Renderer *renderer, Camera *)
 {
     if (selected)
     {
         SDL_FRect square = getSelectionRect();
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 128);
-        SDL_RenderFillRectF(renderer, &square);
+        SDL_SetRenderDrawColor(renderer->renderer, 0, 255, 0, 128);
+        SDL_RenderFillRectF(renderer->renderer, &square);
     }
 }
 

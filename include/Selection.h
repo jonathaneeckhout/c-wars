@@ -4,6 +4,7 @@
 #include <functional>
 
 #include "utils/Vector.h"
+#include "Renderer.h"
 #include "Camera.h"
 
 class Selection
@@ -18,7 +19,7 @@ public:
     void move(Vector position);
     void end(Vector position);
 
-    void output(SDL_Renderer *renderer, Camera *camera);
+    void output(Renderer *renderer, Camera *camera);
 
 private:
     bool selected = false;
