@@ -2,13 +2,11 @@
 
 #include <string>
 
-#include "entities/Unit.h"
+#include "entities/units/Unit.h"
 
 class Worker : public Unit
 {
 public:
-    bool selected = false;
-
     Worker(std::string id, std::string player, Vector position);
     ~Worker();
 };

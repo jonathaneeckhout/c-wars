@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 
 #include "Game.h"
-#include "entities/Worker.h"
+#include "maps/Moon.h"
 
 Game::Game() : running(false)
 {
@@ -20,23 +20,15 @@ Game::Game() : running(false)
 
     renderer = new Renderer();
 
-    map.name = "TestMap";
+    map = new Moon();
 
     registerInputs();
-
-    // Debugging, remove later
-    std::string id0 = map.addEntity("Worker", "TestPlayer", Vector(100, 100));
-    std::cout << "Added entity: " << id0 << std::endl;
-
-    std::string id1 = map.addEntity("Worker", "TestPlayer", Vector(180, 180));
-    std::cout << "Added entity: " << id1 << std::endl;
-
-    std::string id2 = map.addEntity("Worker", "Computer", Vector(480, 480));
-    std::cout << "Added entity: " << id2 << std::endl;
 }
 
 Game::~Game()
 {
+    delete map;
+
     delete renderer;
 
     TTF_Quit();
@@ -60,7 +52,7 @@ void Game::registerInputs()
         globalRect.x += camera.position.x;
         globalRect.y += camera.position.y;
 
-        std::vector<Entity *> entities = map.getEntitiesInRect(globalRect);
+        std::vector<Entity *> entities = map->getEntitiesInRect(globalRect);
 
         player->selectEntities(entities);
     };
@@ -73,7 +65,7 @@ void Game::registerInputs()
 
         SDL_FRect globalRect = {globalPosition.x, globalPosition.y, 0, 0};
 
-        std::vector<Entity *> entities = map.getEntitiesInRect(globalRect);
+        std::vector<Entity *> entities = map->getEntitiesInRect(globalRect);
 
         player->interact(globalPosition, entities);
     };
@@ -125,7 +117,7 @@ void Game::output()
 
     controls.output(renderer, &camera);
 
-    map.output(renderer, &camera);
+    map->output(renderer, &camera);
 
     renderer->present();
 }
@@ -134,7 +126,7 @@ void Game::update(float dt)
 {
     camera.update(dt);
 
-    map.update(dt);
+    map->update(dt);
 }
 
 void Game::setPlayer(Player *player)

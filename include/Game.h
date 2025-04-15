@@ -22,7 +22,7 @@ public:
     void run();
     void stop();
 
-    Map *getMap() { return &map; }
+    Map *getMap() { return map; }
 
     void setPlayer(Player *player);
 
@@ -31,7 +31,7 @@ private:
 
     std::atomic<bool> running;
 
-    Map map;
+    Map *map = NULL;
     std::map<std::string, Player *> players;
 
     Player *player;

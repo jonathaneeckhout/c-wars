@@ -13,12 +13,12 @@
 class Map
 {
 public:
-    std::string name;
+    std::string name = "";
 
     std::map<std::string, std::unique_ptr<Entity>> entities;
 
-    Map();
-    ~Map(); // optional to define now
+    Map(std::string name);
+    ~Map();
 
     void update(float dt);
     void output(Renderer *renderer, Camera *camera);

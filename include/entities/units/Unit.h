@@ -16,7 +16,7 @@ public:
     float speed = 100.0f;
 
     Unit(std::string id, std::string player, Vector position);
-    virtual ~Unit();
+    ~Unit();
 
     void update(float dt) override;
     void output(Renderer *renderer, Camera *camera) override;

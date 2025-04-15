@@ -1,7 +1,7 @@
 #include "Group.h"
 #include <algorithm>
 
-#include "entities/Unit.h"
+#include "entities/units/Unit.h"
 
 Group::Group(std::string owner) : owner(owner) {}
 

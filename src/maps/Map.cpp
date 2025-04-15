@@ -3,10 +3,11 @@
 #include "maps/Map.h"
 #include "utils/uuid.h"
 #include "collision/CollisionShapeSquare.h"
-#include "entities/Worker.h"
+#include "entities/units/Worker.h"
+#include "entities/resources/Metal.h"
 
-Map::Map() = default;
-Map::~Map() = default; // optional, since unique_ptr handles cleanup
+Map::Map(std::string name) : name(name) {}
+Map::~Map() {}
 
 void Map::update(float dt)
 {
@@ -41,6 +42,11 @@ std::string Map::addEntity(const std::string &name, const std::string &player, V
     if (name == "Worker")
     {
         entities[id] = std::make_unique<Worker>(id, player, position);
+        return id;
+    }
+    else if (name == "Metal")
+    {
+        entities[id] = std::make_unique<Metal>(id, position);
         return id;
     }
 

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "entities/Unit.h"
+#include "entities/units/Unit.h"
 #include "collision/CollisionShapeSquare.h"
 
 Unit::Unit(std::string id, std::string player, Vector position) : Entity(id, position)
@@ -47,7 +47,7 @@ void Unit::output(Renderer *renderer, Camera *camera)
     if (selected)
     {
         SDL_FRect selectedSquare = {unitRenderPosition.x - selectedRenderOffset.x, unitRenderPosition.y - selectedRenderOffset.y, selectedSize.x, selectedSize.y};
-        SDL_SetRenderDrawColor(renderer->renderer, 255, 255, 0, 255);
+        SDL_SetRenderDrawColor(renderer->renderer, selectColor.r, selectColor.g, selectColor.b, selectColor.a);
         SDL_RenderFillRectF(renderer->renderer, &selectedSquare);
     }
 
@@ -56,7 +56,7 @@ void Unit::output(Renderer *renderer, Camera *camera)
 
     // Draw Unit
     SDL_FRect square = {unitRenderPosition.x, unitRenderPosition.y, size.x, size.y};
-    SDL_SetRenderDrawColor(renderer->renderer, 255, 0, 0, 255);
+    SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRectF(renderer->renderer, &square);
 
     SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_ADD);
@@ -79,6 +79,11 @@ void Unit::move(Vector position)
 
 void Unit::drawName(Renderer *renderer, Vector position, Vector offset)
 {
+    if (name.empty())
+    {
+        return;
+    }
+
     SDL_Color textColor = {255, 255, 255, 255};
 
     SDL_Surface *textSurface = TTF_RenderText_Solid(renderer->fonts["unit"], name.c_str(), textColor);

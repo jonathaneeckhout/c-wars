@@ -10,7 +10,7 @@
 class Player
 {
 public:
-    std::string name;
+    std::string name = "";
 
     Player(std::string name);
     ~Player();

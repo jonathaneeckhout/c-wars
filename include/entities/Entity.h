@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <SDL2/SDL.h>
 
 #include "utils/Vector.h"
 #include "Renderer.h"
@@ -12,7 +13,7 @@ public:
     SDL_Renderer *renderer;
 
     std::string id;
-    std::string name;
+    std::string name = "";
     Vector position = {0, 0};
     CollisionShape *collisionShape = NULL;
     bool selected = false;
@@ -22,6 +23,9 @@ public:
 
     const Vector renderOffset = size / 2;
     const Vector selectedRenderOffset = (selectedSize - size) / 2;
+
+    SDL_Color color = {255, 255, 255, 255};
+    const SDL_Color selectColor = {255, 255, 0, 255};
 
     Entity(std::string id, Vector position);
 
