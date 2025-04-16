@@ -41,12 +41,12 @@ std::string Map::addEntity(const std::string &name, const std::string &player, V
 
     if (name == "Worker")
     {
-        entities[id] = std::make_unique<Worker>(id, player, position);
+        entities[id] = std::make_unique<Worker>(id, player, this, position);
         return id;
     }
     else if (name == "Metal")
     {
-        entities[id] = std::make_unique<Metal>(id, position);
+        entities[id] = std::make_unique<Metal>(id, this, position);
         return id;
     }
 

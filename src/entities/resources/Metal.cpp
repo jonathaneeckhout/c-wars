@@ -1,6 +1,6 @@
 #include "entities/resources/Metal.h"
 
-Metal::Metal(std::string id, Vector position) : Resource(id, position)
+Metal::Metal(std::string id, Map *map, Vector position) : Resource(id, map, position)
 {
     name = "Metal";
 

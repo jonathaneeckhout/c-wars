@@ -2,7 +2,7 @@
 
 #include "entities/units/Worker.h"
 
-Worker::Worker(std::string id, std::string player, Vector position) : Unit(id, player, position)
+Worker::Worker(std::string id, std::string player, Map *map, Vector position) : Unit(id, player, map, position)
 {
     name = "Worker";
 

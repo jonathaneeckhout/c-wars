@@ -9,7 +9,7 @@ class Resource : public Entity
 public:
     const Vector size = {32, 32};
 
-    Resource(std::string id, Vector position);
+    Resource(std::string id, Map *map, Vector position);
     ~Resource();
 
     void update(float dt) override;

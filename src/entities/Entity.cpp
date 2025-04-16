@@ -1,5 +1,5 @@
 #include "entities/Entity.h"
 
-Entity::Entity(std::string id, Vector position) : id(id), position(position) {}
+Entity::Entity(std::string id, Map *map, Vector position) : id(id), map(map), position(position) {}
 
 Entity::~Entity() {}

@@ -5,6 +5,6 @@
 class Metal : public Resource
 {
 public:
-    Metal(std::string id, Vector position);
+    Metal(std::string id, Map *map, Vector position);
     ~Metal();
 };

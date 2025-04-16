@@ -7,6 +7,9 @@
 #include "Camera.h"
 #include "collision/CollisionShape.h"
 
+// Forward declare Map to avoid circular include
+class Map;
+
 class Entity
 {
 public:
@@ -14,6 +17,7 @@ public:
 
     std::string id;
     std::string name = "";
+    Map *map = NULL;
     Vector position = {0, 0};
     CollisionShape *collisionShape = NULL;
     bool selected = false;
@@ -27,7 +31,7 @@ public:
     SDL_Color color = {255, 255, 255, 255};
     const SDL_Color selectColor = {255, 255, 0, 255};
 
-    Entity(std::string id, Vector position);
+    Entity(std::string id, Map *map, Vector position);
 
     virtual ~Entity();
     virtual void update(float dt) = 0;

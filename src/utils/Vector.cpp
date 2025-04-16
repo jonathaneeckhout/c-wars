@@ -21,3 +21,10 @@ float Vector::distanceTo(const Vector &other) const
 {
     return sqrt((x - other.x) * (x - other.x) + (y - other.y) * (y - other.y));
 }
+
+Vector Vector::directionTo(const Vector &other) const
+{
+    Vector direction = other - *this;
+
+    return direction.normalize();
+}

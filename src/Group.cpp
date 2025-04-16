@@ -1,8 +1,6 @@
 #include "Group.h"
 #include <algorithm>
 
-#include "entities/units/Unit.h"
-
 Group::Group(std::string owner) : owner(owner) {}
 
 Group::~Group() {}
@@ -39,6 +37,18 @@ const std::vector<std::string> &Group::getMembers() const
 
 void Group::move(Vector position)
 {
+    forEachOwnedUnit([&](Unit *unit)
+                     { unit->move(position); });
+}
+
+void Group::interact(Entity *entity)
+{
+    forEachOwnedUnit([&](Unit *unit)
+                     { unit->interact(entity->id); });
+}
+
+void Group::forEachOwnedUnit(std::function<void(Unit *)> action)
+{
     for (auto member : members)
     {
         Entity *entity = map->getEntity(member);
@@ -49,15 +59,11 @@ void Group::move(Vector position)
 
         Unit *unit = dynamic_cast<Unit *>(entity);
         if (unit == NULL)
-        {
             continue;
-        }
 
         if (unit->player != owner)
-        {
             continue;
-        }
 
-        unit->move(position);
+        action(unit);
     }
 }

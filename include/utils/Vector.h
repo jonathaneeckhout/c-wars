@@ -92,6 +92,10 @@ public:
     }
 
     float magnitude() const;
+
     Vector normalize() const;
+
     float distanceTo(const Vector &other) const;
+
+    Vector directionTo(const Vector &other) const;
 };

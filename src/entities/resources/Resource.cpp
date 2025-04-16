@@ -1,9 +1,9 @@
 #include "entities/resources/Resource.h"
 #include "collision/CollisionShapeSquare.h"
 
-Resource::Resource(std::string id, Vector position) : Entity(id, position)
+Resource::Resource(std::string id, Map *map, Vector position) : Entity(id, map, position)
 {
-    collisionShape = new CollisionShapeSquare(position, {32, 32});
+    collisionShape = new CollisionShapeSquare(position - renderOffset, {32, 32});
 }
 
 Resource::~Resource()

@@ -12,10 +12,14 @@ public:
     std::string player = "";
     const Vector size = {32, 32};
     Vector velocity = {0, 0};
-    Vector targetPosition = {0, 0};
-    float speed = 100.0f;
 
-    Unit(std::string id, std::string player, Vector position);
+    float speed = 100.0f;
+    float interactionRange = 64.0f;
+
+    Vector targetPosition = {0, 0};
+    std::string targetID = "";
+
+    Unit(std::string id, std::string player, Map *map, Vector position);
     ~Unit();
 
     void update(float dt) override;
@@ -25,8 +29,11 @@ public:
     void deselect();
 
     void move(Vector position);
+    void interact(std::string target);
 
 private:
+    void handleMoveUpdate(float dt);
+    void handleInteractUpdate(float dt);
     void drawName(Renderer *renderer, Vector position, Vector offset);
     void drawPlayer(Renderer *renderer, Vector position, Vector offset);
 };

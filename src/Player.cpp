@@ -41,6 +41,11 @@ void Player::interact(Vector position, std::vector<Entity *> entities)
     {
         selectedEntities->move(position);
     }
+    else
+    {
+        // For now only interact with the first one
+        selectedEntities->interact(entities[0]);
+    }
 }
 
 void Player::selectAll()

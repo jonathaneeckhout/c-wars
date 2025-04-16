@@ -1,14 +1,16 @@
 #include <iostream>
 
 #include "entities/units/Unit.h"
+#include "entities/resources/Resource.h"
 #include "collision/CollisionShapeSquare.h"
+#include "maps/Map.h"
 
-Unit::Unit(std::string id, std::string player, Vector position) : Entity(id, position)
+Unit::Unit(std::string id, std::string player, Map *map, Vector position) : Entity(id, map, position)
 {
     this->player = player;
     targetPosition = position;
 
-    collisionShape = new CollisionShapeSquare(position, {32, 32});
+    collisionShape = new CollisionShapeSquare(position - renderOffset, {32, 32});
 }
 
 Unit::~Unit()
@@ -18,21 +20,52 @@ Unit::~Unit()
 
 void Unit::update(float dt)
 {
-    if (position.distanceTo(targetPosition) < arrivalRadius)
+    if (!targetID.empty())
     {
-        velocity = {0, 0};
+        handleInteractUpdate(dt);
     }
     else
     {
-        velocity = targetPosition - position;
-
-        velocity = velocity.normalize();
+        handleMoveUpdate(dt);
     }
 
     position += velocity * speed * dt;
 
     // Center the collisionshape
     collisionShape->position = position - renderOffset;
+}
+
+void Unit::handleMoveUpdate(float)
+{
+    if (position.distanceTo(targetPosition) < arrivalRadius)
+    {
+        velocity = {0, 0};
+    }
+    else
+    {
+        velocity = position.directionTo(targetPosition);
+    }
+}
+
+void Unit::handleInteractUpdate(float)
+{
+    Entity *target = map->getEntity(targetID);
+    if (target == NULL)
+    {
+        targetID = "";
+        targetPosition = position;
+        return;
+    }
+
+    float distance = position.distanceTo(target->position);
+    if (distance > interactionRange)
+    {
+        velocity = position.directionTo(target->position);
+    }
+    else
+    {
+        velocity = {0, 0};
+    }
 }
 
 void Unit::output(Renderer *renderer, Camera *camera)
@@ -75,6 +108,12 @@ void Unit::deselect()
 void Unit::move(Vector position)
 {
     targetPosition = position;
+    targetID = "";
+}
+
+void Unit::interact(std::string target)
+{
+    targetID = target;
 }
 
 void Unit::drawName(Renderer *renderer, Vector position, Vector offset)

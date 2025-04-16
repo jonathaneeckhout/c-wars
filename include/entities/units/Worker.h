@@ -7,6 +7,6 @@
 class Worker : public Unit
 {
 public:
-    Worker(std::string id, std::string player, Vector position);
+    Worker(std::string id, std::string player, Map *map, Vector position);
     ~Worker();
 };
