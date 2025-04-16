@@ -8,7 +8,7 @@ Group::~Group() {}
 bool Group::addMember(const std::string &member)
 {
     if (std::find(members.begin(), members.end(), member) != members.end())
-        return false; // already in group
+        return false;
 
     members.push_back(member);
     return true;
@@ -59,10 +59,14 @@ void Group::forEachOwnedUnit(std::function<void(Unit *)> action)
 
         Unit *unit = dynamic_cast<Unit *>(entity);
         if (unit == NULL)
+        {
             continue;
+        }
 
         if (unit->player != owner)
+        {
             continue;
+        }
 
         action(unit);
     }

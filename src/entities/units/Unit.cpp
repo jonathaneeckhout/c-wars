@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include "entities/units/Unit.h"
-#include "entities/resources/Resource.h"
 #include "collision/CollisionShapeSquare.h"
 #include "maps/Map.h"
 
@@ -47,7 +46,7 @@ void Unit::handleMoveUpdate(float)
     }
 }
 
-void Unit::handleInteractUpdate(float)
+void Unit::handleInteractUpdate(float dt)
 {
     Entity *target = map->getEntity(targetID);
     if (target == NULL)
@@ -57,13 +56,37 @@ void Unit::handleInteractUpdate(float)
         return;
     }
 
-    float distance = position.distanceTo(target->position);
-    if (distance > interactionRange)
+    Resource *resource = dynamic_cast<Resource *>(target);
+    if (resource != NULL)
     {
-        velocity = position.directionTo(target->position);
+        handleResourceUpdate(resource, dt);
     }
     else
     {
+        float distance = position.distanceTo(target->position);
+        if (distance > interactionRange)
+        {
+            velocity = position.directionTo(target->position);
+        }
+        else
+        {
+            velocity = {0, 0};
+        }
+    }
+}
+
+void Unit::handleResourceUpdate(Resource *resource, float)
+{
+    // Default unit behavior for resource is to just move towards it
+    float distance = position.distanceTo(resource->position);
+    if (distance > interactionRange)
+    {
+        velocity = position.directionTo(resource->position);
+    }
+    else
+    {
+        targetID = "";
+        targetPosition = position;
         velocity = {0, 0};
     }
 }

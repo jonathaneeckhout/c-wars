@@ -57,3 +57,8 @@ void Resource::drawName(Renderer *renderer, Vector position, Vector offset)
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
 }
+
+std::pair<std::string, float> Resource::gather(float amount)
+{
+    return {type, amount * speed};
+}
