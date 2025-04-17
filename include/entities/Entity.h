@@ -36,4 +36,7 @@ public:
     virtual ~Entity();
     virtual void update(float dt) = 0;
     virtual void output(Renderer *renderer, Camera *camera) = 0;
+
+protected:
+    void drawName(Renderer *renderer, Vector position, Vector offset);
 };

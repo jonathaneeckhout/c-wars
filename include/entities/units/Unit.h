@@ -52,7 +52,6 @@ private:
 
     virtual void handleResourceUpdate(Resource *resource, float dt);
 
-    void drawName(Renderer *renderer, Vector position, Vector offset);
     void drawPlayer(Renderer *renderer, Vector position, Vector offset);
     void drawState(Renderer *rendered, Vector position, Vector offset);
 };

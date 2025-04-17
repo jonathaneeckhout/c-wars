@@ -19,7 +19,5 @@ public:
     void update(float dt) override;
     void output(Renderer *renderer, Camera *camera) override;
 
-    void drawName(Renderer *renderer, Vector position, Vector offset);
-
     std::pair<std::string, float> gather(float amount);
 };

@@ -5,6 +5,7 @@
 #include "collision/CollisionShapeSquare.h"
 #include "entities/units/Worker.h"
 #include "entities/resources/Metal.h"
+#include "entities/buildings/VillageHall.h"
 
 Map::Map(std::string name) : name(name) {}
 Map::~Map() {}
@@ -47,6 +48,11 @@ std::string Map::addEntity(const std::string &name, const std::string &player, V
     else if (name == "Metal")
     {
         entities[id] = std::make_unique<Metal>(id, this, position);
+        return id;
+    }
+    else if (name == "VillageHall")
+    {
+        entities[id] = std::make_unique<VillageHall>(id, player, this, position);
         return id;
     }
 

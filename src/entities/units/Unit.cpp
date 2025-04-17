@@ -4,9 +4,8 @@
 #include "collision/CollisionShapeSquare.h"
 #include "maps/Map.h"
 
-Unit::Unit(std::string id, std::string player, Map *map, Vector position) : Entity(id, map, position)
+Unit::Unit(std::string id, std::string player, Map *map, Vector position) : Entity(id, map, position), player(player)
 {
-    this->player = player;
     targetPosition = position;
 
     collisionShape = new CollisionShapeSquare(position - renderOffset, {32, 32});
@@ -171,25 +170,6 @@ Resource *Unit::getTargetResource()
     }
 
     return dynamic_cast<Resource *>(target);
-}
-
-void Unit::drawName(Renderer *renderer, Vector position, Vector offset)
-{
-    if (name.empty())
-    {
-        return;
-    }
-
-    SDL_Color textColor = {255, 255, 255, 255};
-
-    SDL_Surface *textSurface = TTF_RenderText_Solid(renderer->fonts["unit"], name.c_str(), textColor);
-    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer->renderer, textSurface);
-
-    SDL_FRect textRect = {position.x - float(textSurface->w) / 2 + offset.x, position.y + offset.y, float(textSurface->w), float(textSurface->h)};
-    SDL_RenderCopyF(renderer->renderer, textTexture, NULL, &textRect);
-
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
 }
 
 void Unit::drawPlayer(Renderer *renderer, Vector position, Vector offset)
