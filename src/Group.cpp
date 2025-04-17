@@ -1,5 +1,6 @@
-#include "Group.h"
 #include <algorithm>
+
+#include "Group.hpp"
 
 Group::Group(std::string owner) : owner(owner) {}
 

@@ -1,7 +1,8 @@
-#include "utils/uuid.h"
 #include <random>
 #include <sstream>
 #include <iomanip>
+
+#include "utils/uuid.hpp"
 
 std::string generate_uuid()
 {

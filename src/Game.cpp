@@ -3,8 +3,8 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "Game.h"
-#include "maps/Moon.h"
+#include "Game.hpp"
+#include "maps/Moon.hpp"
 
 Game::Game() : running(false)
 {

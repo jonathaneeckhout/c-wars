@@ -1,5 +1,5 @@
-#include "entities/resources/Resource.h"
-#include "collision/CollisionShapeSquare.h"
+#include "entities/resources/Resource.hpp"
+#include "collision/CollisionShapeSquare.hpp"
 
 Resource::Resource(std::string id, Map *map, Vector position) : Entity(id, map, position)
 {

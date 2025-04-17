@@ -3,9 +3,9 @@
 #include <map>
 #include <SDL2/SDL.h>
 
-#include "maps/Map.h"
-#include "entities/Entity.h"
-#include "Group.h"
+#include "maps/Map.hpp"
+#include "entities/Entity.hpp"
+#include "Group.hpp"
 
 class Player
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "entities/resources/Resource.h"
+#include "entities/resources/Resource.hpp"
 
 class Metal : public Resource
 {

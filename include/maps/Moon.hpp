@@ -1,6 +1,6 @@
 #pragma once
 
-#include "maps/Map.h"
+#include "maps/Map.hpp"
 
 class Moon : public Map
 {

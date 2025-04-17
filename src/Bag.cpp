@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "Bag.h"
+#include "Bag.hpp"
 
 Bag::Bag() {};
 

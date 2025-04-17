@@ -1,5 +1,4 @@
-#include "Controls.h"
-#include <iostream>
+#include "Controls.hpp"
 
 Controls::Controls()
 {

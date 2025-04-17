@@ -1,8 +1,8 @@
 #include <iostream>
 
-#include "entities/units/Unit.h"
-#include "collision/CollisionShapeSquare.h"
-#include "maps/Map.h"
+#include "entities/units/Unit.hpp"
+#include "collision/CollisionShapeSquare.hpp"
+#include "maps/Map.hpp"
 
 Unit::Unit(std::string id, std::string player, Map *map, Vector position) : Entity(id, map, position), player(player)
 {

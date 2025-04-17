@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "maps/Moon.h"
+#include "maps/Moon.hpp"
 
 Moon::Moon() : Map("Moon")
 {

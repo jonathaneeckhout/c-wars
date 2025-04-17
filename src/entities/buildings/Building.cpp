@@ -1,4 +1,4 @@
-#include "entities/buildings/Building.h"
+#include "entities/buildings/Building.hpp"
 
 Building::Building(std::string id, std::string player, Map *map, Vector position) : Entity(id, map, position), player(player) {}
 

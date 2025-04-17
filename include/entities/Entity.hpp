@@ -2,10 +2,10 @@
 #include <string>
 #include <SDL2/SDL.h>
 
-#include "utils/Vector.h"
-#include "Renderer.h"
-#include "Camera.h"
-#include "collision/CollisionShape.h"
+#include "utils/Vector.hpp"
+#include "Renderer.hpp"
+#include "Camera.hpp"
+#include "collision/CollisionShape.hpp"
 
 // Forward declare Map to avoid circular include
 class Map;

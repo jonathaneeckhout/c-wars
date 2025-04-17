@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "entities/Entity.h"
+#include "entities/Entity.hpp"
 
 class Building : public Entity
 {

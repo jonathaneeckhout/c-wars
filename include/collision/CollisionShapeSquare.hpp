@@ -1,7 +1,7 @@
 #pragma once
 
-#include "utils/Vector.h"
-#include "collision/CollisionShape.h"
+#include "utils/Vector.hpp"
+#include "collision/CollisionShape.hpp"
 
 class CollisionShapeSquare : public CollisionShape
 {

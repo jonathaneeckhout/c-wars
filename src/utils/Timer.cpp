@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "utils/Timer.h"
+#include "utils/Timer.hpp"
 
 Timer::Timer(float timeout) : timeout(timeout) {};
 

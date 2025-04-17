@@ -3,11 +3,11 @@
 #include <string>
 #include <map>
 
-#include "Renderer.h"
-#include "Controls.h"
-#include "Camera.h"
-#include "maps/Map.h"
-#include "Player.h"
+#include "Renderer.hpp"
+#include "Controls.hpp"
+#include "Camera.hpp"
+#include "maps/Map.hpp"
+#include "Player.hpp"
 
 class Game
 {

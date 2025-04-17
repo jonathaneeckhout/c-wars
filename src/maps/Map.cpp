@@ -1,11 +1,11 @@
 #include <iostream>
 
-#include "maps/Map.h"
-#include "utils/uuid.h"
-#include "collision/CollisionShapeSquare.h"
-#include "entities/units/Worker.h"
-#include "entities/resources/Metal.h"
-#include "entities/buildings/VillageHall.h"
+#include "maps/Map.hpp"
+#include "utils/uuid.hpp"
+#include "collision/CollisionShapeSquare.hpp"
+#include "entities/units/Worker.hpp"
+#include "entities/resources/Metal.hpp"
+#include "entities/buildings/VillageHall.hpp"
 
 Map::Map(std::string name) : name(name) {}
 Map::~Map() {}

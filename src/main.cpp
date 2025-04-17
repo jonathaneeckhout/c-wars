@@ -1,6 +1,7 @@
 #include <iostream>
 #include <csignal>
-#include "Game.h"
+
+#include "Game.hpp"
 
 using namespace std;
 

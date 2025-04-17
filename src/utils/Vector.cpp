@@ -1,4 +1,4 @@
-#include "utils/Vector.h"
+#include "utils/Vector.hpp"
 
 float Vector::magnitude() const
 {

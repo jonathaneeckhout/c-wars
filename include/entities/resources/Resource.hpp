@@ -3,7 +3,7 @@
 #include <string.h>
 #include <utility>
 
-#include "entities/Entity.h"
+#include "entities/Entity.hpp"
 
 class Resource : public Entity
 {

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Renderer.h"
+#include "Renderer.hpp"
 #include "fonts/8x8square_roguelike_ascii_font.h"
 
 Renderer::Renderer()

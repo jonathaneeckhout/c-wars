@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "Player.h"
-#include "entities/units/Unit.h"
+#include "Player.hpp"
+#include "entities/units/Unit.hpp"
 
 Player::Player(std::string name) : name(name)
 {

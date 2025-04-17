@@ -1,5 +1,6 @@
 # c-wars
 **CWars** is a small 2D real-time strategy (RTS) game, built as a personal educational project to learn and practice C++ programming.
+
 ## Dependencies
 Please install the following dependencies before building:
 ``` bash

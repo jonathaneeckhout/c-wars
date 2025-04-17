@@ -3,10 +3,10 @@
 #include <SDL2/SDL.h>
 #include <functional>
 
-#include "utils/Vector.h"
-#include "Renderer.h"
-#include "Camera.h"
-#include "Selection.h"
+#include "utils/Vector.hpp"
+#include "Renderer.hpp"
+#include "Camera.hpp"
+#include "Selection.hpp"
 
 class Controls
 {

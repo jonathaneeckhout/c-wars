@@ -1,6 +1,6 @@
 #pragma once
 
-#include "entities/buildings/Building.h"
+#include "entities/buildings/Building.hpp"
 
 class VillageHall : public Building
 {

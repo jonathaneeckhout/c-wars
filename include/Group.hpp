@@ -3,9 +3,9 @@
 #include <string>
 #include <functional>
 
-#include "utils/Vector.h"
-#include "maps/Map.h"
-#include "entities/units/Unit.h"
+#include "utils/Vector.hpp"
+#include "maps/Map.hpp"
+#include "entities/units/Unit.hpp"
 
 class Group
 {

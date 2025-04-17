@@ -1,4 +1,4 @@
-#include "entities/buildings/VillageHall.h"
+#include "entities/buildings/VillageHall.hpp"
 
 VillageHall::VillageHall(std::string id, std::string player, Map *map, Vector position) : Building(id, player, map, position)
 {

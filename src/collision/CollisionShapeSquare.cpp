@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "collision/CollisionShapeSquare.h"
+#include "collision/CollisionShapeSquare.hpp"
 
 CollisionShapeSquare::CollisionShapeSquare(Vector position, Vector size) : CollisionShape(position), size(size) {}
 

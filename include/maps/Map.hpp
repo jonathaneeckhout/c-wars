@@ -5,10 +5,10 @@
 #include <memory>
 #include <vector>
 
-#include "entities/Entity.h"
-#include "utils/Vector.h"
-#include "Renderer.h"
-#include "Camera.h"
+#include "entities/Entity.hpp"
+#include "utils/Vector.hpp"
+#include "Renderer.hpp"
+#include "Camera.hpp"
 
 class Map
 {

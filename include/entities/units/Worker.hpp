@@ -2,9 +2,9 @@
 
 #include <string>
 
-#include "entities/units/Unit.h"
-#include "Bag.h"
-#include "utils/Timer.h"
+#include "entities/units/Unit.hpp"
+#include "Bag.hpp"
+#include "utils/Timer.hpp"
 
 class Worker : public Unit
 {

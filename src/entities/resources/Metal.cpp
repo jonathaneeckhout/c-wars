@@ -1,4 +1,4 @@
-#include "entities/resources/Metal.h"
+#include "entities/resources/Metal.hpp"
 
 Metal::Metal(std::string id, Map *map, Vector position) : Resource(id, map, position)
 {

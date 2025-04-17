@@ -1,5 +1,4 @@
-#include "Camera.h"
-#include <iostream>
+#include "Camera.hpp"
 
 Camera::Camera() {}
 
@@ -12,8 +11,6 @@ void Camera::input()
 void Camera::update(float dt)
 {
     position += velocity * speed * dt;
-
-    // std::cout << position.x << " " << position.y << std::endl;
 }
 
 void Camera::move(Vector direction)

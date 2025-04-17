@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include "entities/Entity.h"
-#include "entities/resources/Resource.h"
+#include "entities/Entity.hpp"
+#include "entities/resources/Resource.hpp"
 
 enum class UnitState
 {
