@@ -100,11 +100,11 @@ void Unit::handleResourceUpdate(Resource *resource, float)
     }
 }
 
-void Unit::output(Renderer *renderer, Camera *camera)
+void Unit::output(Renderer *renderer)
 {
     SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_NONE);
 
-    Vector renderPostion = position - camera->position;
+    Vector renderPostion = position - renderer->currentCamera->position;
 
     Vector unitRenderPosition = renderPostion - renderOffset;
 

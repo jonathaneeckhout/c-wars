@@ -17,7 +17,7 @@ public:
     ~Building();
 
     void update(float dt) override;
-    void output(Renderer *renderer, Camera *camera) override;
+    void output(Renderer *renderer) override;
 
     void store(std::pair<std::string, float> goods);
 };

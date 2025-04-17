@@ -20,9 +20,7 @@ Game::Game() : running(false)
 
     renderer = new Renderer();
 
-    map = new Moon();
-
-    registerInputs();
+    map = new Moon(renderer);
 }
 
 Game::~Game()
@@ -34,41 +32,6 @@ Game::~Game()
     TTF_Quit();
 
     SDL_Quit();
-}
-
-void Game::registerInputs()
-{
-    controls.onStop = [this]()
-    { stop(); };
-
-    controls.onMoveCamera = [this](Vector direction)
-    {
-        camera.move(direction);
-    };
-
-    controls.onSelection = [this](SDL_FRect rect)
-    {
-        SDL_FRect globalRect = rect;
-        globalRect.x += camera.position.x;
-        globalRect.y += camera.position.y;
-
-        std::vector<Entity *> entities = map->getEntitiesInRect(globalRect);
-
-        player->selectEntities(entities);
-    };
-
-    controls.onInteract = [this](Vector position)
-    {
-        Vector globalPosition = position;
-        globalPosition.x += camera.position.x;
-        globalPosition.y += camera.position.y;
-
-        SDL_FRect globalRect = {globalPosition.x, globalPosition.y, 0, 0};
-
-        std::vector<Entity *> entities = map->getEntitiesInRect(globalRect);
-
-        player->interact(globalPosition, entities);
-    };
 }
 
 void Game::run()
@@ -108,28 +71,19 @@ void Game::stop()
 
 void Game::input()
 {
-    controls.input();
+    map->input();
+}
+
+void Game::update(float dt)
+{
+    map->update(dt);
 }
 
 void Game::output()
 {
     renderer->clear();
 
-    controls.output(renderer, &camera);
-
-    map->output(renderer, &camera);
+    map->output(renderer);
 
     renderer->present();
-}
-
-void Game::update(float dt)
-{
-    camera.update(dt);
-
-    map->update(dt);
-}
-
-void Game::setPlayer(Player *player)
-{
-    this->player = player;
 }

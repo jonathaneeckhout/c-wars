@@ -1,8 +1,9 @@
 #include <algorithm>
 
-#include "Group.hpp"
+#include "player/Group.hpp"
+#include "maps/Map.hpp"
 
-Group::Group(std::string owner) : owner(owner) {}
+Group::Group(std::string owner, Map *map) : owner(owner), map(map) {}
 
 Group::~Group() {}
 

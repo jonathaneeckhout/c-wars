@@ -4,7 +4,6 @@
 
 #include "utils/Vector.hpp"
 #include "Renderer.hpp"
-#include "Camera.hpp"
 #include "collision/CollisionShape.hpp"
 
 // Forward declare Map to avoid circular include
@@ -35,7 +34,7 @@ public:
 
     virtual ~Entity();
     virtual void update(float dt) = 0;
-    virtual void output(Renderer *renderer, Camera *camera) = 0;
+    virtual void output(Renderer *renderer) = 0;
 
 protected:
     void drawName(Renderer *renderer, Vector position, Vector offset);

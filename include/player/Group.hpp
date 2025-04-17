@@ -4,7 +4,6 @@
 #include <functional>
 
 #include "utils/Vector.hpp"
-#include "maps/Map.hpp"
 #include "entities/units/Unit.hpp"
 
 class Group
@@ -13,7 +12,7 @@ public:
     std::string owner = "";
     Map *map = NULL;
 
-    Group(std::string owner);
+    Group(std::string owner, Map *map);
     ~Group();
 
     bool addMember(const std::string &member);

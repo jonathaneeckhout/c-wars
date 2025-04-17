@@ -7,8 +7,17 @@
 #include "entities/resources/Metal.hpp"
 #include "entities/buildings/VillageHall.hpp"
 
-Map::Map(std::string name) : name(name) {}
+Map::Map(std::string name, Renderer *renderer) : name(name), renderer(renderer) {}
+
 Map::~Map() {}
+
+void Map::input()
+{
+    for (auto &pair : players)
+    {
+        pair.second->input();
+    }
+}
 
 void Map::update(float dt)
 {
@@ -16,14 +25,50 @@ void Map::update(float dt)
     {
         pair.second->update(dt);
     }
+
+    for (auto &pair : players)
+    {
+        pair.second->update(dt);
+    }
 }
 
-void Map::output(Renderer *renderer, Camera *camera)
+void Map::output(Renderer *renderer)
 {
     for (auto &pair : entities)
     {
-        pair.second->output(renderer, camera);
+        pair.second->output(renderer);
     }
+
+    for (auto &pair : players)
+    {
+        pair.second->output(renderer);
+    }
+}
+
+Player *Map::getPlayer(const std::string &name)
+{
+    auto it = players.find(name);
+    if (it != players.end())
+    {
+        return it->second.get();
+    }
+    return nullptr;
+}
+
+bool Map::addPlayer(const std::string &name, bool isLocal)
+{
+    if (getPlayer(name) != nullptr)
+    {
+        return false;
+    }
+
+    players[name] = std::make_unique<Player>(name, this, isLocal, renderer);
+    return true;
+}
+
+void Map::removePlayer(const std::string &name)
+{
+    players.erase(name);
 }
 
 Entity *Map::getEntity(const std::string &id)

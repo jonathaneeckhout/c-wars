@@ -1,4 +1,5 @@
 #include "entities/buildings/Building.hpp"
+#include "maps/Map.hpp"
 
 Building::Building(std::string id, std::string player, Map *map, Vector position) : Entity(id, map, position), player(player) {}
 
@@ -6,11 +7,11 @@ Building::~Building() {}
 
 void Building::update(float) {}
 
-void Building::output(Renderer *renderer, Camera *camera)
+void Building::output(Renderer *renderer)
 {
     SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_NONE);
 
-    Vector renderPostion = position - camera->position;
+    Vector renderPostion = position - renderer->currentCamera->position;
 
     Vector buildingRenderPosition = renderPostion - renderOffset;
 
@@ -34,4 +35,11 @@ void Building::output(Renderer *renderer, Camera *camera)
 
 void Building::store(std::pair<std::string, float> goods)
 {
+    Player *player = map->getPlayer(this->player);
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    player->resources.add(goods);
 }

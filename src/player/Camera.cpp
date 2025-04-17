@@ -1,4 +1,4 @@
-#include "Camera.hpp"
+#include "player/Camera.hpp"
 
 Camera::Camera() {}
 

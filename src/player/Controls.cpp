@@ -1,4 +1,4 @@
-#include "Controls.hpp"
+#include "player/Controls.hpp"
 
 Controls::Controls()
 {

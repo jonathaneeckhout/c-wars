@@ -5,8 +5,8 @@
 
 #include "utils/Vector.hpp"
 #include "Renderer.hpp"
-#include "Camera.hpp"
-#include "Selection.hpp"
+#include "player/Camera.hpp"
+#include "player/Selection.hpp"
 
 class Controls
 {

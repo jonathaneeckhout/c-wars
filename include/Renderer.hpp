@@ -5,11 +5,15 @@
 #include <string>
 #include <map>
 
+#include "player/Camera.hpp"
+
 class Renderer
 {
 public:
     SDL_Window *window;
     SDL_Renderer *renderer;
+
+    Camera *currentCamera = NULL;
 
     std::map<std::string, TTF_Font *> fonts;
 

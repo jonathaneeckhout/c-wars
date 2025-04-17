@@ -17,7 +17,7 @@ public:
     ~Resource();
 
     void update(float dt) override;
-    void output(Renderer *renderer, Camera *camera) override;
+    void output(Renderer *renderer) override;
 
     std::pair<std::string, float> gather(float amount);
 };

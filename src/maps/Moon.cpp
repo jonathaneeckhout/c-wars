@@ -2,8 +2,11 @@
 
 #include "maps/Moon.hpp"
 
-Moon::Moon() : Map("Moon")
+Moon::Moon(Renderer *renderer) : Map("Moon", renderer)
 {
+    // Add Players
+    addPlayer("TestPlayer", true);
+    addPlayer("Computer", false);
 
     // Add Resources
     addEntity("Metal", "", Vector(400 - 128, 300));

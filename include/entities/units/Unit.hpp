@@ -36,7 +36,7 @@ public:
     ~Unit();
 
     void update(float dt) override;
-    void output(Renderer *renderer, Camera *camera) override;
+    void output(Renderer *renderer) override;
 
     void select();
     void deselect();
