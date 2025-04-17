@@ -12,7 +12,7 @@ public:
     ~Bag();
 
     bool isFull();
-    bool add(std::string type, float amount);
+    bool add(std::pair<std::string, float> stuff);
 
     std::pair<std::string, float> empty();
 

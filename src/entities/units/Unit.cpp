@@ -38,21 +38,23 @@ void Unit::handleMoveUpdate(float)
 {
     if (position.distanceTo(targetPosition) < arrivalRadius)
     {
+        state = UnitState::Idle;
+
         velocity = {0, 0};
     }
     else
     {
+        state = UnitState::Moving;
+
         velocity = position.directionTo(targetPosition);
     }
 }
 
 void Unit::handleInteractUpdate(float dt)
 {
-    Entity *target = map->getEntity(targetID);
+    Entity *target = getTargetEntity();
     if (target == NULL)
     {
-        targetID = "";
-        targetPosition = position;
         return;
     }
 
@@ -66,10 +68,14 @@ void Unit::handleInteractUpdate(float dt)
         float distance = position.distanceTo(target->position);
         if (distance > interactionRange)
         {
+            state = UnitState::Moving;
+
             velocity = position.directionTo(target->position);
         }
         else
         {
+            state = UnitState::Idle;
+
             velocity = {0, 0};
         }
     }
@@ -81,10 +87,14 @@ void Unit::handleResourceUpdate(Resource *resource, float)
     float distance = position.distanceTo(resource->position);
     if (distance > interactionRange)
     {
+        state = UnitState::Moving;
+
         velocity = position.directionTo(resource->position);
     }
     else
     {
+        state = UnitState::Idle;
+
         targetID = "";
         targetPosition = position;
         velocity = {0, 0};
@@ -107,13 +117,14 @@ void Unit::output(Renderer *renderer, Camera *camera)
         SDL_RenderFillRectF(renderer->renderer, &selectedSquare);
     }
 
-    drawName(renderer, renderPostion, Vector{0, -48});
-    drawPlayer(renderer, renderPostion, Vector{0, -64});
-
     // Draw Unit
     SDL_FRect square = {unitRenderPosition.x, unitRenderPosition.y, size.x, size.y};
     SDL_SetRenderDrawColor(renderer->renderer, color.r, color.g, color.b, color.a);
     SDL_RenderFillRectF(renderer->renderer, &square);
+
+    drawName(renderer, renderPostion, Vector{0, -48});
+    drawPlayer(renderer, renderPostion, Vector{0, -64});
+    drawState(renderer, renderPostion, Vector{0, -16});
 
     SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_ADD);
 }
@@ -137,6 +148,29 @@ void Unit::move(Vector position)
 void Unit::interact(std::string target)
 {
     targetID = target;
+}
+
+Entity *Unit::getTargetEntity()
+{
+    Entity *target = map->getEntity(targetID);
+    if (target == NULL)
+    {
+        targetID = "";
+        targetPosition = position;
+    }
+
+    return target;
+}
+
+Resource *Unit::getTargetResource()
+{
+    Entity *target = getTargetEntity();
+    if (target == NULL)
+    {
+        return NULL;
+    }
+
+    return dynamic_cast<Resource *>(target);
 }
 
 void Unit::drawName(Renderer *renderer, Vector position, Vector offset)
@@ -163,6 +197,43 @@ void Unit::drawPlayer(Renderer *renderer, Vector position, Vector offset)
     SDL_Color textColor = {255, 255, 255, 255};
 
     SDL_Surface *textSurface = TTF_RenderText_Solid(renderer->fonts["unit"], player.c_str(), textColor);
+    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer->renderer, textSurface);
+
+    SDL_FRect textRect = {position.x - float(textSurface->w) / 2 + offset.x, position.y + offset.y, float(textSurface->w), float(textSurface->h)};
+    SDL_RenderCopyF(renderer->renderer, textTexture, NULL, &textRect);
+
+    SDL_FreeSurface(textSurface);
+    SDL_DestroyTexture(textTexture);
+}
+
+void Unit::drawState(Renderer *renderer, Vector position, Vector offset)
+{
+    SDL_Color textColor = {255, 255, 255, 255};
+
+    std::string stateText = "I";
+
+    switch (state)
+    {
+    case UnitState::Idle:
+        stateText = "I";
+        break;
+    case UnitState::Moving:
+        stateText = "M";
+        break;
+    case UnitState::Gathering:
+        stateText = "G";
+        break;
+    case UnitState::Attacking:
+        stateText = "A";
+        break;
+    case UnitState::Building:
+        stateText = "B";
+        break;
+    default:
+        break;
+    }
+
+    SDL_Surface *textSurface = TTF_RenderText_Solid(renderer->fonts["unit"], stateText.c_str(), textColor);
     SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer->renderer, textSurface);
 
     SDL_FRect textRect = {position.x - float(textSurface->w) / 2 + offset.x, position.y + offset.y, float(textSurface->w), float(textSurface->h)};

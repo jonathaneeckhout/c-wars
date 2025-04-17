@@ -14,10 +14,9 @@ void Timer::update(float dt)
 
         if (offset >= timeout)
         {
-            running = false;
+            // Restart the timer if needed
+            running = restart;
             offset = 0.0f;
-
-            std::cout << "Timer went off" << std::endl;
 
             if (callback)
             {

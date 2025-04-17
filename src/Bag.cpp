@@ -11,21 +11,21 @@ bool Bag::isFull()
     return stock >= size;
 }
 
-bool Bag::add(std::string type, float amount)
+bool Bag::add(std::pair<std::string, float> stuff)
 {
     if (isFull())
     {
         return false;
     }
 
-    if (resourceType == type)
+    if (resourceType == stuff.first)
     {
-        stock += amount;
+        stock += stuff.second;
     }
     else
     {
-        resourceType = type;
-        stock = amount;
+        resourceType = stuff.first;
+        stock = stuff.second;
     }
 
     // clamp the stock to the bag's size
