@@ -203,6 +203,9 @@ void Unit::drawState(Renderer *renderer, Vector position, Vector offset)
     case UnitState::Gathering:
         stateText = "G";
         break;
+    case UnitState::Store:
+        stateText = "S";
+        break;
     case UnitState::Attacking:
         stateText = "A";
         break;

@@ -10,6 +10,7 @@ enum class UnitState
     Idle,
     Moving,
     Gathering,
+    Store,
     Attacking,
     Building
 };

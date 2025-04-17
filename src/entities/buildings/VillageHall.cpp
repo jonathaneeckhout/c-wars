@@ -5,6 +5,8 @@ VillageHall::VillageHall(std::string id, std::string player, Map *map, Vector po
     name = "VillageHall";
 
     color = {218, 165, 32, 255};
+
+    storage = true;
 }
 
 VillageHall::~VillageHall() {};

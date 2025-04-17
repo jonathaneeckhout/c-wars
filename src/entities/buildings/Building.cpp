@@ -31,3 +31,7 @@ void Building::output(Renderer *renderer, Camera *camera)
 
     SDL_SetRenderDrawBlendMode(renderer->renderer, SDL_BLENDMODE_ADD);
 }
+
+void Building::store(std::pair<std::string, float> goods)
+{
+}

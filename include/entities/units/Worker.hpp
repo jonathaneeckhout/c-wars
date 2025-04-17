@@ -5,6 +5,7 @@
 #include "entities/units/Unit.hpp"
 #include "Bag.hpp"
 #include "utils/Timer.hpp"
+#include "entities/buildings/Building.hpp"
 
 class Worker : public Unit
 {
@@ -20,8 +21,12 @@ public:
 
     void gatherCallback();
 
-private:
+protected:
     Bag bag;
 
     Timer *gatherTimer = NULL;
+
+    std::string storageID = "";
+
+    Building *findClosestStorage();
 };
