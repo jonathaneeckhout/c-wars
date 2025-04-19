@@ -57,7 +57,7 @@ void Game::run()
 {
     running = true;
 
-    const double frameDuration = 1.0 / fps;
+    const auto frameDuration = std::chrono::duration<double>(1.0 / fps);
 
     while (running)
     {
@@ -65,20 +65,17 @@ void Game::run()
 
         input();
 
-        update(static_cast<float>(frameDuration));
+        update(frameDuration.count());
 
         output();
 
         auto frameEnd = std::chrono::high_resolution_clock::now();
 
-        std::chrono::duration<double> elapsed = frameEnd - frameStart;
-        double duration = elapsed.count();
+        auto elapsed = frameEnd - frameStart;
 
-        double sleepTime = frameDuration - duration;
-
-        if (sleepTime > 0.0)
+        if (elapsed < frameDuration)
         {
-            SDL_Delay(sleepTime * 1000.0);
+            std::this_thread::sleep_for(frameDuration - elapsed);
         }
     }
 }

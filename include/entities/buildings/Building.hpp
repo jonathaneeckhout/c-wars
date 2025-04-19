@@ -7,9 +7,6 @@
 
 class Building : public Entity
 {
-private:
-    void drawPlayer(Renderer *renderer, Vector position, Vector offset);
-
 public:
     std::string player = "";
     const Vector size = {32, 32};
@@ -23,4 +20,7 @@ public:
     void output(Renderer *renderer) override;
 
     void store(std::pair<std::string, float> goods);
+
+private:
+    void drawPlayer(Renderer *renderer, Vector position, Vector offset);
 };

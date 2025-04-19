@@ -9,6 +9,21 @@
 
 class Game
 {
+
+public:
+    ~Game();
+
+    // Delete copy constructor
+    Game(const Game &obj) = delete;
+
+    static Game *getInstance();
+    static void deleteInstance();
+
+    void run();
+    void stop();
+
+    Map *getMap() { return map; }
+
 private:
     float fps = 30.0f;
 
@@ -25,18 +40,4 @@ private:
     void input();
     void update(float dt);
     void output();
-
-public:
-    ~Game();
-
-    // Delete copy constructor
-    Game(const Game &obj) = delete;
-
-    static Game *getInstance();
-    static void deleteInstance();
-
-    void run();
-    void stop();
-
-    Map *getMap() { return map; }
 };
