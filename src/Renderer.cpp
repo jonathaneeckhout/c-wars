@@ -65,7 +65,7 @@ void Renderer::loadFonts()
         throw std::runtime_error("Failed to read font");
     }
 
-    TTF_Font *unitFont = TTF_OpenFontRW(unitRWFont, 0, 16);
+    TTF_Font *unitFont = TTF_OpenFontRW(unitRWFont, 1, 16);
 
     fonts["unit"] = unitFont;
 

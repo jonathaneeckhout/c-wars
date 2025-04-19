@@ -3,20 +3,26 @@
 
 #include "Game.hpp"
 
-Game game;
+Game *Game::instancePtr = NULL;
+
+Game *game = NULL;
 
 void signalHandler(int signum)
 {
     std::cout << "Interrupt signal (" << signum << ") received." << std::endl;
 
-    game.stop();
+    game->stop();
 }
 
 int main()
 {
+    game = Game::getInstance();
+
     std::signal(SIGINT, signalHandler);
 
-    game.run();
+    game->run();
+
+    Game::deleteInstance();
 
     return 0;
 }

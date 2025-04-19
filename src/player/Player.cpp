@@ -4,6 +4,7 @@
 #include "player/Player.hpp"
 #include "maps/Map.hpp"
 #include "entities/units/Unit.hpp"
+#include "Game.hpp"
 
 Player::Player(std::string name, Map *map, bool isLocal, Renderer *renderer) : name(name), map(map), isLocal(isLocal)
 {
@@ -65,9 +66,11 @@ void Player::output(Renderer *renderer)
 
 void Player::registerInputs()
 {
-    controls->onStop = [this]()
+    controls->onStop = []()
     {
-        // TODO: Send stop signal
+        Game *game = Game::getInstance();
+
+        game->stop();
     };
 
     controls->onMoveCamera = [this](Vector direction)

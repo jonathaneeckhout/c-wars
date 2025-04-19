@@ -34,6 +34,25 @@ Game::~Game()
     SDL_Quit();
 }
 
+Game *Game::getInstance()
+{
+    if (instancePtr == NULL)
+    {
+        instancePtr = new Game();
+    }
+
+    return instancePtr;
+}
+
+void Game::deleteInstance()
+{
+    if (instancePtr != NULL)
+    {
+        delete instancePtr;
+        instancePtr = NULL;
+    }
+}
+
 void Game::run()
 {
     running = true;

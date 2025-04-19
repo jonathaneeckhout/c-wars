@@ -9,24 +9,34 @@
 
 class Game
 {
-public:
+private:
     float fps = 30.0f;
 
-    Game();
-    ~Game();
-    void run();
-    void stop();
-
-    Map *getMap() { return map; }
-
-private:
     Renderer *renderer;
 
     std::atomic<bool> running;
 
     Map *map = NULL;
 
+    static Game *instancePtr;
+
+    Game();
+
     void input();
     void update(float dt);
     void output();
+
+public:
+    ~Game();
+
+    // Delete copy constructor
+    Game(const Game &obj) = delete;
+
+    static Game *getInstance();
+    static void deleteInstance();
+
+    void run();
+    void stop();
+
+    Map *getMap() { return map; }
 };

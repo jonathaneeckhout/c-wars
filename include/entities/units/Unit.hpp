@@ -17,6 +17,17 @@ enum class UnitState
 
 class Unit : public Entity
 {
+
+private:
+    void handleMoveUpdate(float dt);
+    void handleInteractUpdate(float dt);
+
+    virtual void handleResourceUpdate(Resource *resource, float dt);
+
+    void drawPlayer(Renderer *renderer, Vector position, Vector offset);
+    void drawState(Renderer *rendered, Vector position, Vector offset);
+
+protected:
     const int arrivalRadius = 10;
 
 public:
@@ -46,13 +57,4 @@ public:
 
     Entity *getTargetEntity();
     Resource *getTargetResource();
-
-private:
-    void handleMoveUpdate(float dt);
-    void handleInteractUpdate(float dt);
-
-    virtual void handleResourceUpdate(Resource *resource, float dt);
-
-    void drawPlayer(Renderer *renderer, Vector position, Vector offset);
-    void drawState(Renderer *rendered, Vector position, Vector offset);
 };

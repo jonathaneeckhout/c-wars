@@ -7,6 +7,9 @@
 
 class Building : public Entity
 {
+private:
+    void drawPlayer(Renderer *renderer, Vector position, Vector offset);
+
 public:
     std::string player = "";
     const Vector size = {32, 32};
