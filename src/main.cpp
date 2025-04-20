@@ -1,9 +1,7 @@
 #include <iostream>
 #include <csignal>
 
-#include "Game.hpp"
-
-Game *Game::instancePtr = NULL;
+#include "core/Game.hpp"
 
 Game *game = NULL;
 

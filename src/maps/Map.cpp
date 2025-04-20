@@ -7,7 +7,7 @@
 #include "entities/resources/Metal.hpp"
 #include "entities/buildings/VillageHall.hpp"
 
-Map::Map(std::string name, Renderer *renderer) : name(name), renderer(renderer) {}
+Map::Map(std::string name) : name(name) {}
 
 Map::~Map() {}
 
@@ -62,7 +62,7 @@ bool Map::addPlayer(const std::string &name, bool isLocal)
         return false;
     }
 
-    players[name] = std::make_unique<Player>(name, this, isLocal, renderer);
+    players[name] = std::make_unique<Player>(name, this, isLocal);
     return true;
 }
 

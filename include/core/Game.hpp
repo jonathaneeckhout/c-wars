@@ -3,7 +3,7 @@
 #include <string>
 #include <map>
 
-#include "Renderer.hpp"
+#include "core/Renderer.hpp"
 #include "maps/Map.hpp"
 #include "player/Player.hpp"
 
@@ -14,7 +14,7 @@ public:
     ~Game();
 
     // Delete copy constructor
-    Game(const Game &obj) = delete;
+    Game(const Game &) = delete;
 
     static Game *getInstance();
     static void deleteInstance();
@@ -25,15 +25,16 @@ public:
     Map *getMap() { return map; }
 
 private:
-    float fps = 30.0f;
+    static Game *instancePtr;
 
-    Renderer *renderer;
+    float fps = 30.0f;
 
     std::atomic<bool> running;
 
-    Map *map = NULL;
+    Renderer *renderer;
+    Controls *controls = NULL;
 
-    static Game *instancePtr;
+    Map *map = NULL;
 
     Game();
 

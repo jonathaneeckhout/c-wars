@@ -3,8 +3,10 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 
-#include "Game.hpp"
+#include "core/Game.hpp"
 #include "maps/Moon.hpp"
+
+Game *Game::instancePtr = NULL;
 
 Game::Game() : running(false)
 {
@@ -18,16 +20,25 @@ Game::Game() : running(false)
         throw std::runtime_error("Failed to initialize TFF");
     }
 
-    renderer = new Renderer();
+    renderer = Renderer::getInstance();
 
-    map = new Moon(renderer);
+    controls = Controls::getInstance();
+
+    controls->onStop = [this]()
+    {
+        stop();
+    };
+
+    map = new Moon();
 }
 
 Game::~Game()
 {
     delete map;
 
-    delete renderer;
+    Controls::deleteInstance();
+
+    Renderer::deleteInstance();
 
     TTF_Quit();
 
@@ -87,17 +98,23 @@ void Game::stop()
 
 void Game::input()
 {
+    controls->input();
+
     map->input();
 }
 
 void Game::update(float dt)
 {
+    controls->update(dt);
+
     map->update(dt);
 }
 
 void Game::output()
 {
     renderer->clear();
+
+    controls->output(renderer);
 
     map->output(renderer);
 

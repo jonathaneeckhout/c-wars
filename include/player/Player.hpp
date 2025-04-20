@@ -1,17 +1,20 @@
 #pragma once
 #include <string>
 #include <map>
+#include <memory>
 #include <SDL2/SDL.h>
 
-#include "player/Controls.hpp"
+#include "core/Controls.hpp"
 #include "player/Camera.hpp"
 #include "player/PlayerResources.hpp"
 #include "entities/Entity.hpp"
 #include "player/Group.hpp"
-#include "Renderer.hpp"
+#include "core/Renderer.hpp"
+#include "ui/menus/WorkerMenu.hpp"
 
-// Forward declare Map to avoid circular include
+// Forward declare classes to avoid circular include
 class Map;
+class UI;
 
 class Player
 {
@@ -20,12 +23,12 @@ public:
     Map *map = NULL;
     bool isLocal = false;
 
-    Controls *controls = NULL;
     Camera *camera = NULL;
+    UI *ui = NULL;
 
     PlayerResources resources;
 
-    Player(std::string name, Map *map, bool isLocal, Renderer *renderer);
+    Player(std::string name, Map *map, bool isLocal);
     ~Player();
 
     void input();
@@ -38,10 +41,14 @@ public:
 private:
     Group *selectedEntities = NULL;
 
+    std::unique_ptr<WorkerMenu> workerMenu;
+
     void registerInputs();
 
     void selectAll();
     void deselectAll();
 
-    void drawResources(Renderer *renderer, Vector offset);
+    // TODO: move these to UI
+    void checkWhichMenu();
+    void closeAllMenus();
 };

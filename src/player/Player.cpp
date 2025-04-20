@@ -3,33 +3,42 @@
 
 #include "player/Player.hpp"
 #include "maps/Map.hpp"
+#include "player/ui/UI.hpp"
 #include "entities/units/Unit.hpp"
-#include "Game.hpp"
+#include "entities/units/Worker.hpp"
 
-Player::Player(std::string name, Map *map, bool isLocal, Renderer *renderer) : name(name), map(map), isLocal(isLocal)
+Player::Player(std::string name, Map *map, bool isLocal) : name(name), map(map), isLocal(isLocal)
 {
     selectedEntities = new Group(name, map);
 
-    if (isLocal)
+    if (!isLocal)
     {
-        controls = new Controls();
-        camera = new Camera();
-
-        renderer->currentCamera = camera;
-
-        registerInputs();
+        return;
     }
+
+    camera = new Camera();
+
+    ui = new UI(this);
+
+    Renderer::getInstance()->currentCamera = camera;
+
+    workerMenu = std::make_unique<WorkerMenu>();
+
+    registerInputs();
 }
 
 Player::~Player()
 {
     delete selectedEntities;
 
-    if (isLocal)
+    if (!isLocal)
     {
-        delete controls;
-        delete camera;
+        return;
     }
+
+    delete ui;
+
+    delete camera;
 }
 
 void Player::input()
@@ -39,7 +48,7 @@ void Player::input()
         return;
     }
 
-    controls->input();
+    ui->input();
 }
 
 void Player::update(float dt)
@@ -50,6 +59,8 @@ void Player::update(float dt)
     }
 
     camera->update(dt);
+
+    ui->update(dt);
 }
 
 void Player::output(Renderer *renderer)
@@ -59,19 +70,12 @@ void Player::output(Renderer *renderer)
         return;
     }
 
-    controls->output(renderer, camera);
-
-    drawResources(renderer, {16, 16});
+    ui->output(renderer);
 }
 
 void Player::registerInputs()
 {
-    controls->onStop = []()
-    {
-        Game *game = Game::getInstance();
-
-        game->stop();
-    };
+    Controls *controls = Controls::getInstance();
 
     controls->onMoveCamera = [this](Vector direction)
     {
@@ -108,6 +112,8 @@ void Player::selectEntities(std::vector<Entity *> entities)
     // Clear selected entities
     deselectAll();
 
+    closeAllMenus();
+
     selectedEntities->clear();
 
     for (auto entity : entities)
@@ -116,6 +122,8 @@ void Player::selectEntities(std::vector<Entity *> entities)
     }
 
     selectAll();
+
+    checkWhichMenu();
 }
 
 void Player::interact(Vector position, std::vector<Entity *> entities)
@@ -161,18 +169,22 @@ void Player::deselectAll()
     }
 }
 
-void Player::drawResources(Renderer *renderer, Vector offset)
+void Player::checkWhichMenu()
 {
-    SDL_Color textColor = {255, 255, 255, 255};
+    if (selectedEntities->getMembers().size() == 0)
+    {
+        return;
+    }
 
-    std::string resourcesString = "Metal: " + std::to_string(static_cast<int>(resources.metal));
+    Worker *worker = dynamic_cast<Worker *>(map->getEntity(selectedEntities->getMembers()[0]));
+    if (worker)
+    {
+        workerMenu->visible = true;
+        return;
+    }
+}
 
-    SDL_Surface *textSurface = TTF_RenderText_Solid(renderer->fonts["unit"], resourcesString.c_str(), textColor);
-    SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer->renderer, textSurface);
-
-    SDL_FRect textRect = {offset.x, offset.y, float(textSurface->w), float(textSurface->h)};
-    SDL_RenderCopyF(renderer->renderer, textTexture, NULL, &textRect);
-
-    SDL_FreeSurface(textSurface);
-    SDL_DestroyTexture(textTexture);
+void Player::closeAllMenus()
+{
+    workerMenu->visible = false;
 }

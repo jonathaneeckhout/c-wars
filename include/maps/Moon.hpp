@@ -5,6 +5,6 @@
 class Moon : public Map
 {
 public:
-    Moon(Renderer *renderer);
+    Moon();
     ~Moon();
 };

@@ -8,7 +8,7 @@
 #include "player/Player.hpp"
 #include "entities/Entity.hpp"
 #include "utils/Vector.hpp"
-#include "Renderer.hpp"
+#include "core/Renderer.hpp"
 
 class Map
 {
@@ -18,7 +18,7 @@ public:
     std::map<std::string, std::unique_ptr<Player>> players;
     std::map<std::string, std::unique_ptr<Entity>> entities;
 
-    Map(std::string name, Renderer *renderer);
+    Map(std::string name);
     ~Map();
 
     void input();
@@ -37,5 +37,4 @@ public:
     std::vector<Entity *> getEntitiesInRect(SDL_FRect rect);
 
 private:
-    Renderer *renderer = NULL;
 };

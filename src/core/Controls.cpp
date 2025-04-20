@@ -1,4 +1,6 @@
-#include "player/Controls.hpp"
+#include "core/Controls.hpp"
+
+Controls *Controls::instancePtr = NULL;
 
 Controls::Controls()
 {
@@ -12,6 +14,24 @@ Controls::Controls()
 }
 
 Controls::~Controls() {}
+
+Controls *Controls::getInstance()
+{
+    if (instancePtr == NULL)
+    {
+        instancePtr = new Controls();
+    }
+    return instancePtr;
+}
+
+void Controls::deleteInstance()
+{
+    if (instancePtr != NULL)
+    {
+        delete instancePtr;
+        instancePtr = NULL;
+    }
+}
 
 void Controls::input()
 {
@@ -151,7 +171,7 @@ void Controls::handleCameraMovement()
 
 void Controls::update(float) {}
 
-void Controls::output(Renderer *renderer, Camera *camera)
+void Controls::output(Renderer *renderer)
 {
-    selection.output(renderer, camera);
+    selection.output(renderer);
 }

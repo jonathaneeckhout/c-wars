@@ -2,7 +2,7 @@
 
 #include "maps/Moon.hpp"
 
-Moon::Moon(Renderer *renderer) : Map("Moon", renderer)
+Moon::Moon() : Map("Moon")
 {
     // Add Players
     addPlayer("TestPlayer", true);

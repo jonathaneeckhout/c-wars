@@ -1,14 +1,18 @@
 #include <iostream>
 
-#include "Renderer.hpp"
+#include "core/Renderer.hpp"
 #include "fonts/8x8square_roguelike_ascii_font.h"
+
+Renderer *Renderer::instancePtr = NULL;
+
+const Vector Renderer::windowSize = {800, 600};
 
 Renderer::Renderer()
 {
     window = SDL_CreateWindow("CWars",
                               SDL_WINDOWPOS_CENTERED,
                               SDL_WINDOWPOS_CENTERED,
-                              800, 600,
+                              int(windowSize.x), int(windowSize.y),
                               SDL_WINDOW_SHOWN);
 
     if (!window)
@@ -34,6 +38,25 @@ Renderer::~Renderer()
     SDL_DestroyRenderer(renderer);
 
     SDL_DestroyWindow(window);
+}
+
+Renderer *Renderer::getInstance()
+{
+    if (!instancePtr)
+    {
+        instancePtr = new Renderer();
+    }
+
+    return instancePtr;
+}
+
+void Renderer::deleteInstance()
+{
+    if (instancePtr)
+    {
+        delete instancePtr;
+        instancePtr = NULL;
+    }
 }
 
 void Renderer::clear()
@@ -68,7 +91,6 @@ void Renderer::loadFonts()
     TTF_Font *unitFont = TTF_OpenFontRW(unitRWFont, 1, 16);
 
     fonts["unit"] = unitFont;
-
 }
 
 void Renderer::cleanFonts()

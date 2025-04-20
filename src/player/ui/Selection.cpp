@@ -1,4 +1,4 @@
-#include "player/Selection.hpp"
+#include "player/ui/Selection.hpp"
 
 Selection::Selection() {}
 
@@ -32,7 +32,7 @@ void Selection::end(Vector position)
     }
 }
 
-void Selection::output(Renderer *renderer, Camera *)
+void Selection::output(Renderer *renderer)
 {
     if (selected)
     {

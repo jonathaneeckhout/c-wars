@@ -4,8 +4,7 @@
 #include <functional>
 
 #include "utils/Vector.hpp"
-#include "Renderer.hpp"
-#include "Camera.hpp"
+#include "core/Renderer.hpp"
 
 class Selection
 {
@@ -19,7 +18,7 @@ public:
     void move(Vector position);
     void end(Vector position);
 
-    void output(Renderer *renderer, Camera *camera);
+    void output(Renderer *renderer);
 
 private:
     bool selected = false;

@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 
 #include "utils/Vector.hpp"
-#include "Renderer.hpp"
+#include "core/Renderer.hpp"
 #include "collision/CollisionShape.hpp"
 
 // Forward declare Map to avoid circular include

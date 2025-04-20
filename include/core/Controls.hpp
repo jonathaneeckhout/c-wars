@@ -4,9 +4,8 @@
 #include <functional>
 
 #include "utils/Vector.hpp"
-#include "Renderer.hpp"
-#include "player/Camera.hpp"
-#include "player/Selection.hpp"
+#include "core/Renderer.hpp"
+#include "player/ui/Selection.hpp"
 
 class Controls
 {
@@ -16,19 +15,29 @@ public:
     std::function<void(SDL_FRect)> onSelection = NULL;
     std::function<void(Vector)> onInteract = NULL;
 
-    Controls();
     ~Controls();
+
+    // Delete copy constructor
+    Controls(const Controls &) = delete;
+
+    static Controls *getInstance();
+    static void deleteInstance();
+
     void input();
     void update(float dt);
-    void output(Renderer *renderer, Camera *camera);
+    void output(Renderer *renderer);
 
 private:
+    static Controls *instancePtr;
+
     bool wPressed = false;
     bool sPressed = false;
     bool aPressed = false;
     bool dPressed = false;
 
     Selection selection;
+
+    Controls();
 
     void handleCameraMovement();
 };
