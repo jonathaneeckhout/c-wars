@@ -1,16 +1,54 @@
+#include <iostream>
 #include "player/ui/UI.hpp"
 
-UI::UI(Player *player) : player(player) {}
+UI::UI(Player *player) : player(player)
+{
+    Controls *controls = Controls::getInstance();
+
+    controls->mouseLeftClickHandlers.push_back([this](Vector mousePosition)
+                                               {
+        if (isMouseAbove())
+        {
+            return;
+        }
+        selection.start(mousePosition); });
+
+    controls->mouseLeftReleaseHandlers.push_back([this](Vector mousePosition)
+                                                 { 
+                                                    selection.end(mousePosition); 
+                                                    const SDL_FRect selectionRect = selection.getSelectionRect(); 
+                                                    this->player->selectEntities(selectionRect); });
+
+    controls->mouseMovementHandlers.push_back([this](Vector mousePosition)
+                                              { 
+                                                checkMouseAbove(mousePosition); 
+                                                selection.move(mousePosition); });
+}
 
 UI::~UI() {}
 
-void UI::input() {}
+void UI::input()
+{
+    workerMenu.input();
+}
 
-void UI::update(float) {}
+void UI::update(float dt)
+{
+    workerMenu.update(dt);
+
+    if (mouseIsAbove)
+    {
+        std::cout << "Mouse is above UI" << std::endl;
+    }
+}
 
 void UI::output(Renderer *renderer)
 {
     drawResources(renderer, {0, 0});
+
+    selection.output(renderer);
+
+    workerMenu.output(renderer);
 }
 
 void UI::drawResources(Renderer *renderer, Vector offset)
@@ -27,4 +65,30 @@ void UI::drawResources(Renderer *renderer, Vector offset)
 
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
+}
+
+void UI::closeAllMenus()
+{
+    workerMenu.visible = false;
+}
+
+void UI::showWorkerMenu()
+{
+    workerMenu.visible = true;
+}
+
+void UI::hideWorkerMenu()
+{
+    workerMenu.visible = false;
+}
+
+void UI::checkMouseAbove(Vector mousePosition)
+{
+    mouseIsAbove = workerMenu.isMouseAbove(mousePosition);
+    if (mouseIsAbove)
+    {
+        return;
+    }
+
+    mouseIsAbove = false;
 }

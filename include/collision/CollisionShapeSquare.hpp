@@ -10,6 +10,7 @@ public:
 
     CollisionShapeSquare(Vector position, Vector size);
 
+    bool collidesWith(const Vector &position) const override;
     bool collidesWith(const CollisionShape &other) const override;
     bool collidesWith(const class CollisionShapeSquare &square) const override;
 };

@@ -2,16 +2,7 @@
 
 Controls *Controls::instancePtr = NULL;
 
-Controls::Controls()
-{
-    selection.onSelection = [this](SDL_FRect rect)
-    {
-        if (onSelection != NULL)
-        {
-            onSelection(rect);
-        }
-    };
-}
+Controls::Controls() {}
 
 Controls::~Controls() {}
 
@@ -47,69 +38,34 @@ void Controls::input()
             }
             break;
         case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_ESCAPE:
-                if (onStop != NULL)
-                {
-                    onStop();
-                }
-                break;
+        {
+            SDL_Keycode keycode = event.key.keysym.sym;
 
-            case SDLK_w:
-                wPressed = true;
-                break;
+            std::string keyName = SDL_GetKeyName(keycode);
 
-            case SDLK_s:
-                sPressed = true;
-                break;
-
-            case SDLK_a:
-                aPressed = true;
-                break;
-
-            case SDLK_d:
-                dPressed = true;
-                break;
-
-            default:
-                break;
-            }
-            break;
-
+            invokeKeyHandlers(keyPressHandlers, keyName);
+        }
+        break;
         case SDL_KEYUP:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_w:
-                wPressed = false;
-                break;
-            case SDLK_s:
-                sPressed = false;
-                break;
-            case SDLK_a:
-                aPressed = false;
-                break;
-            case SDLK_d:
-                dPressed = false;
-                break;
-            default:
-                break;
-            }
+        {
+            SDL_Keycode keycode = event.key.keysym.sym;
 
-            break;
+            std::string keyName = SDL_GetKeyName(keycode);
+
+            invokeKeyHandlers(keyReleaseHandlers, keyName);
+        }
+        break;
         case SDL_MOUSEBUTTONDOWN:
             switch (event.button.button)
             {
             case SDL_BUTTON_LEFT:
-                selection.start(Vector{float(event.button.x), float(event.button.y)});
+                invokeMouseHandlers(mouseLeftClickHandlers, Vector{float(event.button.x), float(event.button.y)});
                 break;
             case SDL_BUTTON_RIGHT:
-                if (onInteract != NULL)
-                {
-                    onInteract(Vector{float(event.button.x), float(event.button.y)});
-                }
+                invokeMouseHandlers(mouseRightClickHandlers, Vector{float(event.button.x), float(event.button.y)});
                 break;
             case SDL_BUTTON_MIDDLE:
+                invokeMouseHandlers(mouseMiddleClickHandlers, Vector{float(event.button.x), float(event.button.y)});
                 break;
             default:
                 break;
@@ -119,59 +75,43 @@ void Controls::input()
             switch (event.button.button)
             {
             case SDL_BUTTON_LEFT:
-                selection.end(Vector{float(event.button.x), float(event.button.y)});
-
+                invokeMouseHandlers(mouseLeftReleaseHandlers, Vector{float(event.button.x), float(event.button.y)});
                 break;
             case SDL_BUTTON_RIGHT:
+                invokeMouseHandlers(mouseRightReleaseHandlers, Vector{float(event.button.x), float(event.button.y)});
                 break;
             case SDL_BUTTON_MIDDLE:
+                invokeMouseHandlers(mouseMiddleReleaseHandlers, Vector{float(event.button.x), float(event.button.y)});
                 break;
             default:
                 break;
             }
             break;
         case SDL_MOUSEMOTION:
-            selection.move(Vector{float(event.motion.x), float(event.motion.y)});
-
+            invokeMouseHandlers(mouseMovementHandlers, Vector{float(event.motion.x), float(event.motion.y)});
             break;
         default:
             break;
         }
-
-        handleCameraMovement();
-    }
-}
-
-void Controls::handleCameraMovement()
-{
-    Vector cameraMoveDirection = {0, 0};
-
-    if (wPressed)
-    {
-        cameraMoveDirection.y -= 1;
-    }
-    if (sPressed)
-    {
-        cameraMoveDirection.y += 1;
-    }
-    if (aPressed)
-    {
-        cameraMoveDirection.x -= 1;
-    }
-    if (dPressed)
-    {
-        cameraMoveDirection.x += 1;
-    }
-
-    if (onMoveCamera != NULL)
-    {
-        onMoveCamera(cameraMoveDirection.normalize());
     }
 }
 
 void Controls::update(float) {}
 
-void Controls::output(Renderer *renderer)
+void Controls::output(Renderer *) {}
+
+void Controls::invokeKeyHandlers(const std::vector<std::function<void(std::string)>> &handlers, const std::string &key)
 {
-    selection.output(renderer);
+    for (const auto &handler : handlers)
+    {
+        handler(key);
+    }
+}
+
+void Controls::invokeMouseHandlers(const std::vector<std::function<void(Vector)>> &handlers, const Vector &mousePosition)
+{
+    for (const auto &handler : handlers)
+    {
+        handler(mousePosition);
+    }
 }

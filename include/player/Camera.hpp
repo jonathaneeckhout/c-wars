@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL2/SDL.h>
+#include <string>
 
 #include "utils/Vector.hpp"
 
@@ -14,5 +16,20 @@ public:
 
     void input();
     void update(float dt);
-    void move(Vector direction);
+
+    Vector toGlobal(Vector point);
+    SDL_FRect toGlobal(SDL_FRect rect);
+
+private:
+    const std::string moveLeftKey = "A";
+    const std::string moveRightKey = "D";
+    const std::string moveUpKey = "W";
+    const std::string moveDownKey = "S";
+
+    bool moveLeft = false;
+    bool moveRight = false;
+    bool moveUp = false;
+    bool moveDown = false;
+
+    void handleCameraMovement();
 };

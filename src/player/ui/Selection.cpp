@@ -25,11 +25,6 @@ void Selection::end(Vector position)
 {
     selected = false;
     endPos = position;
-
-    if (onSelection != NULL)
-    {
-        onSelection(getSelectionRect());
-    }
 }
 
 void Selection::output(Renderer *renderer)

@@ -5,15 +5,25 @@
 
 #include "utils/Vector.hpp"
 #include "core/Renderer.hpp"
-#include "player/ui/Selection.hpp"
 
 class Controls
 {
 public:
     std::function<void()> onStop = NULL;
-    std::function<void(Vector)> onMoveCamera = NULL;
-    std::function<void(SDL_FRect)> onSelection = NULL;
-    std::function<void(Vector)> onInteract = NULL;
+
+    std::vector<std::function<void(std::string)>> keyPressHandlers = {};
+    std::vector<std::function<void(std::string)>> keyReleaseHandlers = {};
+
+    std::vector<std::function<void(Vector)>> mouseLeftClickHandlers = {};
+    std::vector<std::function<void(Vector)>> mouseLeftReleaseHandlers = {};
+
+    std::vector<std::function<void(Vector)>> mouseRightClickHandlers = {};
+    std::vector<std::function<void(Vector)>> mouseRightReleaseHandlers = {};
+
+    std::vector<std::function<void(Vector)>> mouseMiddleClickHandlers = {};
+    std::vector<std::function<void(Vector)>> mouseMiddleReleaseHandlers = {};
+
+    std::vector<std::function<void(Vector)>> mouseMovementHandlers = {};
 
     ~Controls();
 
@@ -30,14 +40,8 @@ public:
 private:
     static Controls *instancePtr;
 
-    bool wPressed = false;
-    bool sPressed = false;
-    bool aPressed = false;
-    bool dPressed = false;
-
-    Selection selection;
-
     Controls();
 
-    void handleCameraMovement();
+    static void invokeKeyHandlers(const std::vector<std::function<void(std::string)>> &handlers, const std::string &key);
+    static void invokeMouseHandlers(const std::vector<std::function<void(Vector)>> &handlers, const Vector &mousePosition);
 };

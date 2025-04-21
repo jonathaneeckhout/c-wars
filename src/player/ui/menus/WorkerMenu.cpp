@@ -19,3 +19,13 @@ void WorkerMenu::output(Renderer *renderer)
     SDL_SetRenderDrawColor(renderer->renderer, 32, 32, 32, 255);
     SDL_RenderFillRectF(renderer->renderer, &rect);
 }
+
+bool WorkerMenu::isMouseAbove(Vector mousePosition)
+{
+    if (!visible)
+    {
+        return false;
+    }
+
+    return square.collidesWith(mousePosition);
+}

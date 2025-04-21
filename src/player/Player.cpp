@@ -1,5 +1,4 @@
 #include <iostream>
-#include <signal.h>
 
 #include "player/Player.hpp"
 #include "maps/Map.hpp"
@@ -21,8 +20,6 @@ Player::Player(std::string name, Map *map, bool isLocal) : name(name), map(map),
     ui = new UI(this);
 
     Renderer::getInstance()->currentCamera = camera;
-
-    workerMenu = std::make_unique<WorkerMenu>();
 
     registerInputs();
 }
@@ -47,6 +44,8 @@ void Player::input()
     {
         return;
     }
+
+    camera->input();
 
     ui->input();
 }
@@ -77,42 +76,23 @@ void Player::registerInputs()
 {
     Controls *controls = Controls::getInstance();
 
-    controls->onMoveCamera = [this](Vector direction)
-    {
-        camera->move(direction);
-    };
+    controls->mouseRightClickHandlers.push_back([this](Vector mousePosition)
+                                                {
+        if (ui->isMouseAbove()) {
+            return;
+        }
 
-    controls->onSelection = [this](SDL_FRect rect)
-    {
-        SDL_FRect globalRect = rect;
-        globalRect.x += camera->position.x;
-        globalRect.y += camera->position.y;
-
-        std::vector<Entity *> entities = map->getEntitiesInRect(globalRect);
-
-        this->selectEntities(entities);
-    };
-
-    controls->onInteract = [this](Vector position)
-    {
-        Vector globalPosition = position;
-        globalPosition.x += camera->position.x;
-        globalPosition.y += camera->position.y;
-
-        SDL_FRect globalRect = {globalPosition.x, globalPosition.y, 0, 0};
-
-        std::vector<Entity *> entities = map->getEntitiesInRect(globalRect);
-
-        this->interact(globalPosition, entities);
-    };
+        interact(camera->toGlobal(mousePosition)); });
 }
 
-void Player::selectEntities(std::vector<Entity *> entities)
+void Player::selectEntities(const SDL_FRect &rect)
 {
+    SDL_FRect globalRect = camera->toGlobal(rect);
+
+    std::vector<Entity *> entities = map->getEntitiesInRect(globalRect);
+
     // Clear selected entities
     deselectAll();
-
-    closeAllMenus();
 
     selectedEntities->clear();
 
@@ -122,12 +102,14 @@ void Player::selectEntities(std::vector<Entity *> entities)
     }
 
     selectAll();
-
-    checkWhichMenu();
 }
 
-void Player::interact(Vector position, std::vector<Entity *> entities)
+void Player::interact(Vector position)
 {
+    SDL_FRect rect = {position.x, position.y, 0, 0};
+
+    std::vector<Entity *> entities = map->getEntitiesInRect(rect);
+
     if (entities.size() == 0)
     {
         selectedEntities->move(position);
@@ -167,24 +149,4 @@ void Player::deselectAll()
             unit->deselect();
         }
     }
-}
-
-void Player::checkWhichMenu()
-{
-    if (selectedEntities->getMembers().size() == 0)
-    {
-        return;
-    }
-
-    Worker *worker = dynamic_cast<Worker *>(map->getEntity(selectedEntities->getMembers()[0]));
-    if (worker)
-    {
-        workerMenu->visible = true;
-        return;
-    }
-}
-
-void Player::closeAllMenus()
-{
-    workerMenu->visible = false;
 }

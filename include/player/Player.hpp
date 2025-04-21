@@ -35,20 +35,14 @@ public:
     void update(float dt);
     void output(Renderer *renderer);
 
-    void selectEntities(std::vector<Entity *> entities);
-    void interact(Vector position, std::vector<Entity *> entities);
+    void selectEntities(const SDL_FRect &rect);
+    void interact(Vector position);
 
 private:
     Group *selectedEntities = NULL;
-
-    std::unique_ptr<WorkerMenu> workerMenu;
 
     void registerInputs();
 
     void selectAll();
     void deselectAll();
-
-    // TODO: move these to UI
-    void checkWhichMenu();
-    void closeAllMenus();
 };
