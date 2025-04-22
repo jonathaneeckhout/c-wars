@@ -1,15 +1,22 @@
 #include <iostream>
 #include <csignal>
 
-#include "core/Game.hpp"
+#include "engine/core/Game.hpp"
 
 Game *game = NULL;
 
-void signalHandler(int signum)
+static void signalHandler(int signum)
 {
     std::cout << "Interrupt signal (" << signum << ") received." << std::endl;
 
     game->stop();
+}
+
+static void populateGame()
+{
+    Object *players = new Object();
+    players->name = "Players";
+    game->addChild(players);
 }
 
 int main()
@@ -17,6 +24,8 @@ int main()
     game = Game::getInstance();
 
     std::signal(SIGINT, signalHandler);
+
+    populateGame();
 
     game->run();
 
