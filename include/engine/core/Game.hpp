@@ -5,6 +5,7 @@
 #include "engine/Object.hpp"
 #include "engine/core/Renderer.hpp"
 #include "engine/core/Controls.hpp"
+#include "engine/core/Resources.hpp"
 
 class Game : public Object
 {
@@ -28,8 +29,9 @@ private:
 
     std::atomic<bool> running;
 
-    Renderer *renderer;
+    Renderer *renderer = NULL;
     Controls *controls = NULL;
+    Resources *resources = NULL;
 
     Game();
 

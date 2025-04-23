@@ -29,6 +29,10 @@ Game::Game() : Object(), running(false)
 
     addChild(controls);
 
+    resources = Resources::getInstance();
+
+    addChild(resources);
+
     controls->onStop = [this]()
     {
         stop();
@@ -38,12 +42,14 @@ Game::Game() : Object(), running(false)
 Game::~Game()
 {
     removeChild(controls->getId());
+    removeChild(renderer->getId());
+    removeChild(resources->getId());
+
+    deleteChildren();
 
     Controls::deleteInstance();
-
-    removeChild(renderer->getId());
-
     Renderer::deleteInstance();
+    Resources::deleteInstance();
 
     TTF_Quit();
 

@@ -28,6 +28,8 @@ public:
 
     bool deleteChild(const std::string &id);
 
+    void deleteChildren();
+
     // Don't override
     void __input();
 

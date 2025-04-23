@@ -15,8 +15,8 @@ public:
     bool removePlayer(const std::string &name);
 
     Unit *getUnit(const std::string &id);
-    bool addUnit(const std::string &name, const std::string &player, Vector pos);
-    bool removeUnit(const std::string &name);
+    bool addUnit(const std::string &type, const std::string &player, Vector pos);
+    bool removeUnit(const std::string &id);
 
 private:
     Object *players = nullptr;

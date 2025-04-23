@@ -1,10 +1,12 @@
 #pragma once
 
-#include "engine/Object.hpp"
+#include <SDL2/SDL.h>
 
-class UI : public Object
+#include "engine/entities/Entity.hpp"
+
+class UI : public Entity
 {
 public:
-    UI();
-    virtual ~UI();
+    UI(Vector position);
+    ~UI() override;
 };

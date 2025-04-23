@@ -1,9 +1,9 @@
 #pragma once
 
-#include "engine/Object.hpp"
+#include "engine/entities/Entity.hpp"
 #include "engine/Camera.hpp"
 
-class Player : public Object
+class Player : public Entity
 {
 public:
     bool isLocal = false;

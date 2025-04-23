@@ -19,6 +19,8 @@ public:
 
     float speed = 100.0f;
 
-    Unit();
+    UnitState state = UnitState::Idle;
+
+    Unit(const std::string &player, const std::string &name, Vector position);
     ~Unit();
 };

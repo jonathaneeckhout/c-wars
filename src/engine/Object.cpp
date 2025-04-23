@@ -88,6 +88,16 @@ bool Object::deleteChild(const std::string &id)
     return removeChild(id);
 }
 
+void Object::deleteChildren()
+{
+    for (auto &[id, child] : children)
+    {
+        delete child;
+    }
+
+    children.clear();
+}
+
 void Object::__input()
 {
     for (auto &pair : children)

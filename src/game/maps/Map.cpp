@@ -1,4 +1,5 @@
 #include "game/maps/Map.hpp"
+#include "game/entities/units/Worker.hpp"
 
 Map::Map(std::string name)
 {
@@ -40,6 +41,14 @@ Unit *Map::getUnit(const std::string &name)
     return dynamic_cast<Unit *>(units->getChildByName(name));
 }
 
-bool Map::addUnit(const std::string &name, const std::string &player)
+bool Map::addUnit(const std::string &type, const std::string &player, Vector pos)
 {
+    if (type == "Worker")
+    {
+        Worker *worker = new Worker(player, pos);
+
+        return units->addChild(worker);
+    }
+
+    return false;
 }
