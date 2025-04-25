@@ -4,6 +4,8 @@
 
 Text::Text(Vector position, const std::string &text) : UI(position), text(text)
 {
+    name = "Text";
+
     setFont("default", size);
 }
 

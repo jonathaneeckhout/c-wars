@@ -1,4 +1,4 @@
-#include "engine/Camera.hpp"
+#include "engine/entities/Camera.hpp"
 
 Camera *Camera::current = nullptr;
 

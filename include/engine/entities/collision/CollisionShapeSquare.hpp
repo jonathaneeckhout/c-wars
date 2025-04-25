@@ -1,6 +1,7 @@
 #pragma once
 
-#include "engine/collision/CollisionShape.hpp"
+#include "engine/Vector.hpp"
+#include "engine/entities/collision/CollisionShape.hpp"
 
 class CollisionShapeSquare : public CollisionShape
 {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "engine/entities/Entity.hpp"
-#include "engine/Camera.hpp"
+#include "engine//entities/Camera.hpp"
 
 class Player : public Entity
 {

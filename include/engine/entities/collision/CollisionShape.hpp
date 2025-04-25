@@ -1,15 +1,15 @@
 #pragma once
 
-#include "engine/Object.hpp"
 #include "engine/Vector.hpp"
+#include "engine/entities/Entity.hpp"
 
-class CollisionShape : public Object
+class CollisionShape : public Entity
 {
 public:
-    Vector position = {0, 0};
+    uint32_t layers = 0x000000001;
 
     CollisionShape(Vector position);
-    virtual ~CollisionShape() = default;
+    virtual ~CollisionShape();
 
     virtual bool collidesWith(const Vector &point) const = 0;
     virtual bool collidesWith(const CollisionShape &other) const = 0;

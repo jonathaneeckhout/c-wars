@@ -3,7 +3,10 @@
 
 #include <iostream>
 
-Label::Label(Vector position, const std::string &text) : Text(position, text) {}
+Label::Label(Vector position, const std::string &text) : Text(position, text)
+{
+    name = "Label";
+}
 
 Label::~Label() {}
 
